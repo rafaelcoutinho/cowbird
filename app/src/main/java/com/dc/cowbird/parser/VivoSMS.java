@@ -5,7 +5,6 @@ import android.util.Log;
 import com.dc.cowbird.Constants;
 import com.dc.cowbird.vo.Protocol;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,12 +34,14 @@ public class VivoSMS implements SMSParser {
         Matcher m = p.matcher(body);
 
         try {
-            if (m.groupCount() > 1) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy kk:mm");
-                date = sdf.parse(m.group(2) + " " + m.group(3)).getTime();
+            if (m.matches()) {
+                if (m.groupCount() > 1) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy kk:mm");
+                    date = sdf.parse(m.group(2) + " " + m.group(3)).getTime();
 
+                }
             }
-        } catch (ParseException e) {
+        } catch (Exception e) {
             Log.i(Constants.LOG_TAG, "Could not get date from '" + body, e);
         }
         return new Protocol(m.group(1), "VIVO", date, body);

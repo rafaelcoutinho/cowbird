@@ -35,7 +35,7 @@ public class Protocol {
     String operator;
     String obs;
     String fullSource;
-    Outcome outcome;
+    Outcome outcome = Outcome.NA;
     private String number = "?";
 
     public Protocol(String number, String operator, long date, String fullsSms) {

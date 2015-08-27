@@ -6,7 +6,7 @@ import android.net.Uri;
  * Created by coutinho on 27/08/15.
  */
 public class ContentConstants {
-    public static final String PROVIDER_NAME = "com.dc.protocol";
+    public static final String PROVIDER_NAME = "com.dc.protocols";
     public static final String URL = "content://" + PROVIDER_NAME + "/";
 
     public static Uri getUriFor(ProtocolURLs reportEquipmentPath) {
