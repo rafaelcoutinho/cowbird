@@ -3,19 +3,15 @@ package com.dc.cowbird;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
-import com.dc.cowbird.parser.SMSParserFactory;
-import com.dc.cowbird.vo.Protocol;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.dc.cowbird.provider.ContentConstants;
+import com.dc.cowbird.service.CrawlSMSInbox;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -40,7 +36,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btnInbox = (Button) findViewById(R.id.btnInbox);
         btnInbox.setOnClickListener(this);
 
-
+        CrawlSMSInbox.startCrawlingSMSInbox(getApplicationContext());
         lvMsg = (ListView) findViewById(R.id.lvMsg);
 
     }
@@ -49,31 +45,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
 
         if (v == btnInbox) {
-
-            // Create Inbox box URI
-            Uri inboxURI = Uri.parse("content://sms/inbox");
-
-            // List required columns
-            String[] reqCols = new String[]{"_id", "address", "body", "date", "subject"};
-
             // Get Content Resolver object, which will deal with Content Provider
             ContentResolver cr = getContentResolver();
 
             // Fetch Inbox SMS Message from Built-in Content Provider
-            Cursor c = cr.query(inboxURI, reqCols, null, null, null);
+            Cursor c = cr.query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, null, null, null);
+            adapter = new SimpleCursorAdapter(this, R.layout.row, c,
+                    new String[]{"date", "number", "operator"}, new int[]{
+                    R.id.lblDate,
+                    R.id.lblNumber, R.id.lblOperator});
 
-
-            List<String> protocols = new ArrayList<String>();
-            if (c.moveToFirst()) {
-                do {
-                    Protocol parser = SMSParserFactory.getInstance(c);
-                    if (parser != null) {
-                        protocols.add(parser.toString());
-                    }
-                } while (c.moveToNext());
-            }
-            // Attached Cursor with adapter and display in listview
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, protocols.toArray(new String[protocols.size()]));
 
             lvMsg.setAdapter(adapter);
 

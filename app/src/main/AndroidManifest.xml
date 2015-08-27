@@ -24,7 +24,11 @@
             android:name=".provider.ProtocolDBContentProvider"
             android:authorities="com.dc.protocols"
             android:enabled="true"
-            android:exported="false"></provider>
+            android:exported="false" />
+
+        <service
+            android:name=".service.CrawlSMSInbox"
+            android:exported="false"></service>
     </application>
 
 </manifest>

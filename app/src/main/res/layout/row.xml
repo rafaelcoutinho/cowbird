@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/lblMsg"
+        android:id="@+id/lblDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+        android:layout_gravity="top|left"
+        android:text="00/00/00"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#00f"></TextView>
 
+    <TextView
+        android:id="@+id/lblOperator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:text="Operadora"
+        android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
     <TextView
         android:id="@+id/lblNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#00f"></TextView>
+        android:layout_gravity="right|bottom"
+        android:text="Numero"
+        android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
-</LinearLayout>
+
+</FrameLayout>
