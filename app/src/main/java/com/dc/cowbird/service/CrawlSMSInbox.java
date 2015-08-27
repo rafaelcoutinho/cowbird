@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.dc.cowbird.Constants;
@@ -59,9 +60,11 @@ public class CrawlSMSInbox extends IntentService {
 
             // Get Content Resolver object, which will deal with Content Provider
             ContentResolver cr = getContentResolver();
-
+            Long lastExecution = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getLong("lastCheck", 0);
             // Fetch Inbox SMS Message from Built-in Content Provider
-            smsCursor = cr.query(inboxURI, reqCols, null, null, null);
+            smsCursor = cr.query(inboxURI, reqCols, "date>?", new String[]{
+                    lastExecution.toString()
+            }, null);
 
             if (smsCursor.moveToFirst()) {
                 do {
@@ -74,6 +77,7 @@ public class CrawlSMSInbox extends IntentService {
                         }
                     }
                 } while (smsCursor.moveToNext());
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putLong("lastCheck", System.currentTimeMillis()).commit();
             }
         } finally {
             if (smsCursor != null) {

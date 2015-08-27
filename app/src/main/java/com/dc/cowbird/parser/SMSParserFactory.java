@@ -8,13 +8,7 @@ import com.dc.cowbird.vo.Protocol;
  * Created by coutinho on 26/08/15.
  */
 public class SMSParserFactory {
-
-    public static Protocol getInstance(Cursor c) {
-
-        Long date = c.getLong(c.getColumnIndex("date"));
-        String subject = c.getString(c.getColumnIndex("subject"));
-        String body = c.getString(c.getColumnIndex("body"));
-        String address = c.getString(c.getColumnIndex("address"));
+    public static Protocol getInstance(Long date, String subject, String body, String address) {
         VivoSMS vivo = new VivoSMS();
         if (vivo.canParse(address, body)) {
             return vivo.getProtocol(address, body, date, subject);
@@ -29,5 +23,13 @@ public class SMSParserFactory {
 
 
         return null;
+    }
+    public static Protocol getInstance(Cursor c) {
+
+        Long date = c.getLong(c.getColumnIndex("date"));
+        String subject = c.getString(c.getColumnIndex("subject"));
+        String body = c.getString(c.getColumnIndex("body"));
+        String address = c.getString(c.getColumnIndex("address"));
+        return getInstance(date, subject, body, address);
     }
 }
