@@ -4,21 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0">
-
-        <Button
-            android:id="@+id/btnInbox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="Processa SMSs"></Button>
-
-    </LinearLayout>
-
     <ListView
         android:id="@+id/lvMsg"
         android:layout_width="match_parent"
