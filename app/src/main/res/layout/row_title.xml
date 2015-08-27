@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#7fc550">
 
 
     <TextView
@@ -26,7 +27,7 @@
         android:layout_alignTop="@+id/lblOperator"
         android:layout_gravity="right|bottom"
         android:text="Número Protocolo"
-        android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+        android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
 
 </RelativeLayout>

@@ -1,0 +1,94 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4eed7"
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:context="com.dc.cowbird.ProtocolFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/dateLabel"
+            style="@style/labelStyle"
+            android:text="Data" />
+
+        <TextView
+            android:id="@+id/dateTV"
+            style="@style/mainField"
+            android:layout_below="@id/dateLabel"
+            android:text="00/00/00" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/operLabel"
+            style="@style/labelStyle"
+            android:text="Operadora" />
+
+        <EditText
+            android:id="@+id/etOperadora"
+            style="@style/mainField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/operLabel"
+            android:editable="false"
+            android:hint="Operadora"
+            android:singleLine="true" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/numLabel"
+            style="@style/labelStyle"
+            android:text="Número protocolo" />
+
+        <EditText
+            android:id="@+id/etNumber"
+            style="@style/mainField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/numLabel"
+            android:editable="false"
+            android:hint="Número do protocolo"
+            android:singleLine="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/obsLabel"
+            style="@style/labelStyle"
+            android:text="Anotações" />
+
+        <EditText
+            android:id="@+id/etObs"
+            style="@style/mainField"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/obsLabel"
+            android:background="#ffffff"
+            android:gravity="top"
+            android:lines="3"
+
+            android:minLines="3" />
+    </RelativeLayout>
+
+
+</LinearLayout>

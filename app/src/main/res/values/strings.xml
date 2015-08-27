@@ -1,6 +1,18 @@
 <resources>
-    <string name="app_name">Cowbird</string>
+    <string name="app_name">Anota Protocolo</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="title_activity_main_control">Anotador</string>
+
+    <string name="title_section1">Meus Protocolos</string>
+    <string name="title_section2">Ajuda</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_add">Novo</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

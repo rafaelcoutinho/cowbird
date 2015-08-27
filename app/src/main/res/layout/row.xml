@@ -3,11 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginRight="5dp"
+        android:src="@mipmap/ic_tim" />
     <TextView
         android:id="@+id/lblDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|left"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="top|right"
         android:text="00/00/00"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#00f"></TextView>
@@ -16,22 +27,23 @@
         android:id="@+id/lblOperator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/lblDate"
+        android:layout_alignLeft="@+id/lblNumber"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/lblNumber"
         android:layout_gravity="left|bottom"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
+        android:gravity="center_vertical"
         android:text="Operadora"
-        android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+        android:textAppearance="?android:attr/textAppearanceSmall"></TextView>
     <TextView
         android:id="@+id/lblNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/lblOperator"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_below="@+id/lblDate"
         android:layout_gravity="right|bottom"
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_toRightOf="@+id/imageView"
+        android:gravity="center_vertical"
         android:text="Numero"
         android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
 
