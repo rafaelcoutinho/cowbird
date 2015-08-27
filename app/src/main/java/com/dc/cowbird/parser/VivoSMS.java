@@ -11,8 +11,8 @@ public class VivoSMS implements SMSParser {
 
 
     @Override
-    public boolean canParse(String address,String body) {
-        if("2004".equals(address) && body.startsWith("Vivo: Protocolo")){
+    public boolean canParse(String address, String body) {
+        if ("2004".equals(address) && body.startsWith("Vivo: Protocolo")) {
             return true;
 
         }
@@ -21,10 +21,10 @@ public class VivoSMS implements SMSParser {
 
     @Override
     public Protocol getProtocol(String address, String body, Long date, String subject) {
-        Log.i("Proto","address "+address);
-        Log.i("Proto","body "+body);
-        Log.i("Proto","date "+date);
-        Log.i("Proto","subject "+subject);
-        return new Protocol("","VIVO",date,body);
+        Log.i("Proto", "address " + address);
+        Log.i("Proto", "body " + body);
+        Log.i("Proto", "date " + date);
+        Log.i("Proto", "subject " + subject);
+        return new Protocol("", "VIVO", date, body);
     }
 }

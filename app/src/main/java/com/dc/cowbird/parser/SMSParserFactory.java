@@ -19,11 +19,11 @@ public class SMSParserFactory {
         if (vivo.canParse(address, body)) {
             return vivo.getProtocol(address, body, date, subject);
 
-        }else{
+        } else {
             TimSMS tim = new TimSMS();
             if (tim.canParse(address, body)) {
                 return tim.getProtocol(address, body, date, subject);
-                
+
             }
         }
 

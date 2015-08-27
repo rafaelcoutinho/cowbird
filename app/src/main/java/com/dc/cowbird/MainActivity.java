@@ -6,15 +6,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 
-import com.dc.cowbird.parser.SMSParser;
 import com.dc.cowbird.parser.SMSParserFactory;
 import com.dc.cowbird.vo.Protocol;
 
@@ -32,7 +28,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     // Cursor Adapter
     ListAdapter adapter;
 
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +54,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Uri inboxURI = Uri.parse("content://sms/inbox");
 
             // List required columns
-            String[] reqCols = new String[] { "_id", "address", "body" ,"date","subject"};
+            String[] reqCols = new String[]{"_id", "address", "body", "date", "subject"};
 
             // Get Content Resolver object, which will deal with Content Provider
             ContentResolver cr = getContentResolver();
@@ -66,16 +64,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 
             List<String> protocols = new ArrayList<String>();
-            if(c.moveToFirst()) {
+            if (c.moveToFirst()) {
                 do {
                     Protocol parser = SMSParserFactory.getInstance(c);
-                    if(parser!=null){
+                    if (parser != null) {
                         protocols.add(parser.toString());
                     }
-                }while(c.moveToNext());
+                } while (c.moveToNext());
             }
             // Attached Cursor with adapter and display in listview
-            adapter = new ArrayAdapter<String> ( this, android.R.layout.simple_list_item_1, protocols.toArray(new String[protocols.size()]) );
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, protocols.toArray(new String[protocols.size()]));
 
             lvMsg.setAdapter(adapter);
 
