@@ -57,8 +57,37 @@ public class Protocol {
 
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public String getObs() {
+        return obs;
+    }
+
+    public String getFullSource() {
+        return fullSource;
+    }
+
+    public Outcome getOutcome() {
+        return outcome;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
     @Override
     public String toString() {
+
         return DateFormat.getDateInstance().format(new Date(date)) + ": " + operator + " - " + number;
     }
 
