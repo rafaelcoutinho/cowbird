@@ -3,9 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <TextView
-        android:id="@+id/lblOperator"
+        android:id="@+id/lblEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -13,6 +12,7 @@
         android:layout_below="@+id/lblDate"
         android:layout_gravity="left|bottom"
         android:layout_marginLeft="12dp"
+        android:visibility="visible"
         android:layout_marginStart="12dp"
         android:text="Nenhum SMS com protocolos conhecidos encontrado."
         android:textAppearance="?android:attr/textAppearanceMedium"></TextView>

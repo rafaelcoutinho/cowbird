@@ -10,6 +10,7 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dc.cowbird.provider.ContentConstants;
@@ -78,18 +79,23 @@ public class ProtocolFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_protocol, container, false);
-        Cursor c = getActivity().getContentResolver().query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, "_id=?", new String[]{mParam1.toString()}, null);
-        if (c.moveToFirst()) {
-            protocol = new Protocol(c);
-            String data = DateFormat.getDateFormat(getActivity()).format(new Date(protocol.getDate()));
-            String hora = DateFormat.getTimeFormat(getActivity()).format(new Date(protocol.getDate()));
-            ((TextView) v.findViewById(R.id.dateTV)).setText(data + " " + hora);
-            ((TextView) v.findViewById(R.id.etNumber)).setText(protocol.getNumber());
-            ((TextView) v.findViewById(R.id.etOperadora)).setText(protocol.getOperator());
-            ((TextView) v.findViewById(R.id.etObs)).setText(protocol.getObs());
-
+        if (mParam1 != null) {
+            Cursor c = getActivity().getContentResolver().query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, "_id=?", new String[]{mParam1.toString()}, null);
+            if (c.moveToFirst()) {
+                protocol = new Protocol(c);
+                String data = DateFormat.getDateFormat(getActivity()).format(new Date(protocol.getDate()));
+                String hora = DateFormat.getTimeFormat(getActivity()).format(new Date(protocol.getDate()));
+                ((TextView) v.findViewById(R.id.dateTV)).setText(data + " " + hora);
+                ((TextView) v.findViewById(R.id.etNumber)).setText(protocol.getNumber());
+                ((TextView) v.findViewById(R.id.etOperadora)).setText(protocol.getOperator());
+                ((TextView) v.findViewById(R.id.etObs)).setText(protocol.getObs());
+            }else{
+                ((EditText) v.findViewById(R.id.etNumber)).setEnabled(true);
+                ((EditText) v.findViewById(R.id.etOperadora)).setEnabled(true);
+                ((EditText) v.findViewById(R.id.etObs)).setEnabled(true);
+            }
+            c.close();
         }
-        c.close();
         return v;
     }
 

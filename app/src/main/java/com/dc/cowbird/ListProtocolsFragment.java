@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +78,9 @@ public class ListProtocolsFragment extends android.support.v4.app.Fragment imple
 
     }
 
+    private FloatingActionButton mFloatingBtn;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,8 +93,19 @@ public class ListProtocolsFragment extends android.support.v4.app.Fragment imple
         // Set OnItemClickListener so we can be notified on item clicks
 
         mListView.setOnItemClickListener(this);
-        mListView.setEmptyView(inflater.inflate(R.layout.empty_list, null));
+        mListView.setEmptyView(view.findViewById(R.id.lblEmpty));
         mListView.addHeaderView(inflater.inflate(R.layout.row_title, null));
+        mFloatingBtn = (FloatingActionButton) view.findViewById(R.id.btnNew);
+        mFloatingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO AQUI CHAMAR O FRAGMENT DE ADICIONAR NOVO PROTOCOLO
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container, new ProtocolFragment()).addToBackStack("NewFrag")
+                        .commit();
+
+            }
+        });
 
         return view;
     }

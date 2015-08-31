@@ -1,94 +1,106 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f4eed7"
     android:orientation="vertical"
-    android:padding="5dp"
+    android:padding="15dp"
     tools:context="com.dc.cowbird.ProtocolFragment">
 
+    <TextView
+        android:id="@+id/operLabel"
+        style="@style/labelStyle"
+        android:layout_alignTop="@+id/ic_operadora"
+        android:layout_toLeftOf="@+id/ic_operadora"
+        android:text="Operadora" />
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/ic_operadora"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:scaleType="fitXY"
+        android:layout_alignParentEnd="true"
+        android:background="#50FFFFFF"
+        android:src="@drawable/ic_vivo" />
+
+    <EditText
+        android:id="@+id/etOperadora"
+        style="@style/mainField"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/operLabel"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_toLeftOf="@+id/ic_operadora"
+        android:editable="false"
+        android:hint="Operadora"
+        android:singleLine="true" />
 
-        <TextView
-            android:id="@+id/dateLabel"
-            style="@style/labelStyle"
-            android:text="Data" />
+    <TextView
+        android:id="@+id/dateLabel"
+        style="@style/labelStyle"
+        android:layout_below="@+id/etOperadora"
+        android:layout_toLeftOf="@+id/ic_operadora"
+        android:text="Data" />
 
-        <TextView
-            android:id="@+id/dateTV"
-            style="@style/mainField"
-            android:layout_below="@id/dateLabel"
-            android:text="00/00/00" />
+    <TextView
+        android:id="@+id/dateTV"
+        style="@style/mainField"
+        android:layout_below="@id/dateLabel"
+        android:layout_alignBottom="@+id/ic_operadora"
+        android:text="00/00/00" />
 
-    </RelativeLayout>
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/numLabel"
+        style="@style/mainField"
+        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginStart="0dp"
+        android:layout_alignBottom="@+id/etNumber"
+        android:gravity="bottom"
+        android:layout_marginLeft="0dp"
+        android:paddingBottom="5dp"
+        android:layout_marginRight="0dp"
+        android:layout_below="@id/dateTV"
+        android:text="Número protocolo" />
+
+    <EditText
+        android:id="@+id/etNumber"
+        style="@style/mainField"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/operLabel"
-            style="@style/labelStyle"
-            android:text="Operadora" />
-
-        <EditText
-            android:id="@+id/etOperadora"
-            style="@style/mainField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/operLabel"
-            android:editable="false"
-            android:hint="Operadora"
-            android:singleLine="true" />
-
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/numLabel"
+        android:layout_below="@+id/dateTV"
+        android:editable="false"
+        android:hint="20150815165"
+        android:singleLine="true" />
 
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/obsLabel"
+        android:layout_marginTop="5dp"
+        style="@style/labelStyle"
+        android:gravity="center"
+        android:background="@color/actionbar_background"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/etNumber"
+        android:text="Anotações" />
+
+    <EditText
+        android:id="@+id/etObs"
+        style="@style/mainField"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/numLabel"
-            style="@style/labelStyle"
-            android:text="Número protocolo" />
-
-        <EditText
-            android:id="@+id/etNumber"
-            style="@style/mainField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/numLabel"
-            android:editable="false"
-            android:hint="Número do protocolo"
-            android:singleLine="true" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/obsLabel"
-            style="@style/labelStyle"
-            android:text="Anotações" />
-
-        <EditText
-            android:id="@+id/etObs"
-            style="@style/mainField"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/obsLabel"
-            android:background="#ffffff"
-            android:gravity="top"
-            android:lines="3"
-
-            android:minLines="3" />
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@id/obsLabel"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:background="#80FFFFFF"
+        android:gravity="top"
+        android:lines="3"
+        android:minLines="3" />
 
 
-</LinearLayout>
+</RelativeLayout>

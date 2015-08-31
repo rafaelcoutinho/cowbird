@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
 
 
         lvMsg.setAdapter(adapter);
-        lvMsg.setEmptyView(getLayoutInflater().inflate(R.layout.empty_list, null));
+        lvMsg.setEmptyView(findViewById(R.id.lblEmpty));
         lvMsg.addHeaderView(getLayoutInflater().inflate(R.layout.row_title, null));
 
     }
