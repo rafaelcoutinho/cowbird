@@ -18,6 +18,12 @@ public class SMSParserFactory {
             if (tim.canParse(address, body)) {
                 return tim.getProtocol(address, body, date, subject);
 
+            }else{
+                ClaroSMS claro = new ClaroSMS();
+                if (claro.canParse(address, body)) {
+                    return claro.getProtocol(address, body, date, subject);
+
+                }
             }
         }
 
