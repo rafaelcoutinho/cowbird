@@ -1,7 +1,9 @@
 package com.dc.cowbird.parser;
 
 import android.database.Cursor;
+import android.util.Log;
 
+import com.dc.cowbird.Constants;
 import com.dc.cowbird.vo.Protocol;
 
 /**
@@ -9,20 +11,27 @@ import com.dc.cowbird.vo.Protocol;
  */
 public class SMSParserFactory {
     public static Protocol getInstance(Long date, String subject, String body, String address) {
+
         VivoSMS vivo = new VivoSMS();
         if (vivo.canParse(address, body)) {
+            Log.d(Constants.LOG_TAG,"Vivo "+address+": '"+body+"'");
             return vivo.getProtocol(address, body, date, subject);
 
         } else {
             TimSMS tim = new TimSMS();
             if (tim.canParse(address, body)) {
+                Log.d(Constants.LOG_TAG,"TIM "+address+": '"+body+"'");
                 return tim.getProtocol(address, body, date, subject);
 
             }else{
                 ClaroSMS claro = new ClaroSMS();
+
                 if (claro.canParse(address, body)) {
+                    Log.d(Constants.LOG_TAG,"Claro "+address+": '"+body+"'");
                     return claro.getProtocol(address, body, date, subject);
 
+                }else{
+                    Log.d(Constants.LOG_TAG,"Não identificiado Parsing "+address+": '"+body+"'");
                 }
             }
         }

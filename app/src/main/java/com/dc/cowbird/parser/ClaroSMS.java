@@ -13,7 +13,8 @@ import java.util.regex.Pattern;
  * Created by coutinho on 26/08/15.
  */
 public class ClaroSMS implements SMSParser {
-    final static String regextStr = "Protocolo (\\d*) referente a Solicitacao em (\\d{0,2}/\\d{0,2}/\\d{0,4}) as (\\d{0,2}:\\d{0,2})\\.\\S?Claro";
+    final static String regextStr = "Protocolo (\\d*) referente a Solicitacao em (\\d{0,2}/\\d{0,2}/\\d{0,4}) as (\\d{0,2}:\\d{0,2})\\. Claro$";
+
     Pattern p = null;
 
     public ClaroSMS() {
@@ -23,6 +24,7 @@ public class ClaroSMS implements SMSParser {
 
     @Override
     public boolean canParse(String address, String body) {
+
         if ("25276".equals(address) && body.endsWith("Claro")) {
             return p.matcher(body).matches();
         }
