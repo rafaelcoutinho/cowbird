@@ -33,7 +33,7 @@ public class MainControlActivity extends ActionBarActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         fragmentManager.beginTransaction()
-                .add(R.id.container, ProtocolFragment.newInstance(id))
+                .replace(R.id.container, ProtocolFragment.newInstance(id))
                 .addToBackStack("Protocolo")
                 .commit();
 

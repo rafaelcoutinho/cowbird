@@ -99,7 +99,7 @@ public class ListProtocolsFragment extends android.support.v4.app.Fragment imple
         mFloatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO AQUI CHAMAR O FRAGMENT DE ADICIONAR NOVO PROTOCOLO
+                
                 getFragmentManager().beginTransaction()
                         .replace(R.id.container, new ProtocolFragment()).addToBackStack("NewFrag")
                         .commit();
