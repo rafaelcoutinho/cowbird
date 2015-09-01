@@ -177,9 +177,13 @@ public class ListProtocolsFragment extends android.support.v4.app.Fragment imple
         public void bindView(View view, Context context, Cursor cursor) {
             Protocol p = new Protocol(cursor);
             if ("VIVO".equalsIgnoreCase(p.getOperator())) {
-                ((ImageView) view.findViewById(R.id.imageView)).setImageDrawable(getResources().getDrawable(R.mipmap.ic_vivo));
-            } else {
-                ((ImageView) view.findViewById(R.id.imageView)).setImageDrawable(getResources().getDrawable(R.mipmap.ic_tim));
+                ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_vivo);
+            } else if ("TIM".equalsIgnoreCase(p.getOperator())) {
+                ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_tim);
+            }else if ("CLARO".equalsIgnoreCase(p.getOperator())) {
+                ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_claro);
+            }else{
+                ((ImageView) view.findViewById(R.id.imageView)).setImageDrawable(null);
             }
             ((TextView) view.findViewById(R.id.lblDate)).setText(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date(p.getDate())));
             ((TextView) view.findViewById(R.id.lblNumber)).setText(p.getNumber());
