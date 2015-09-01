@@ -30,8 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/operLabel"
-        android:layout_marginLeft="0dp"
-        android:layout_marginStart="0dp"
+
         android:layout_toLeftOf="@+id/ic_operadora"
         android:editable="false"
         android:hint="Operadora"
@@ -58,7 +57,7 @@
         android:layout_width="wrap_content"
         android:textSize="20sp"
         android:layout_marginStart="0dp"
-        android:layout_alignBottom="@+id/etNumber"
+        android:background="@android:color/transparent"
         android:gravity="bottom"
         android:layout_marginLeft="0dp"
         android:paddingBottom="5dp"
@@ -71,8 +70,7 @@
         style="@style/mainField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/numLabel"
-        android:layout_below="@+id/dateTV"
+        android:layout_below="@+id/numLabel"
         android:editable="false"
         android:hint="20150815165"
         android:singleLine="true" />
