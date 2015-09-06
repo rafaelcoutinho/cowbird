@@ -27,7 +27,6 @@ public class MainControlActivity extends ActionBarActivity
     private CharSequence mTitle;
 
 
-
     public void onFragmentInteraction(Long id) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();

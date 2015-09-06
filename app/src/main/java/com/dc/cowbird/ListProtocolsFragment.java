@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +34,7 @@ import java.util.Date;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class ListProtocolsFragment extends android.support.v4.app.Fragment implements AbsListView.OnItemClickListener {
+public class ListProtocolsFragment extends Fragment implements AbsListView.OnItemClickListener {
 
 
     private OnFragmentInteractionListener mListener;
@@ -99,7 +101,7 @@ public class ListProtocolsFragment extends android.support.v4.app.Fragment imple
         mFloatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
                 getFragmentManager().beginTransaction()
                         .replace(R.id.container, new ProtocolFragment()).addToBackStack("NewFrag")
                         .commit();
@@ -180,9 +182,11 @@ public class ListProtocolsFragment extends android.support.v4.app.Fragment imple
                 ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_vivo);
             } else if ("TIM".equalsIgnoreCase(p.getOperator())) {
                 ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_tim);
-            }else if ("CLARO".equalsIgnoreCase(p.getOperator())) {
+            } else if ("CLARO".equalsIgnoreCase(p.getOperator())) {
                 ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_claro);
-            }else{
+            } else if ("OI".equalsIgnoreCase(p.getOperator())) {
+                ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_oi);
+            } else {
                 ((ImageView) view.findViewById(R.id.imageView)).setImageDrawable(null);
             }
             ((TextView) view.findViewById(R.id.lblDate)).setText(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date(p.getDate())));

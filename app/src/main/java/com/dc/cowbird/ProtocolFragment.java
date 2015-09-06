@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dc.cowbird.provider.ContentConstants;
@@ -22,7 +23,7 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
-
+ * <p/>
  * to handle interaction events.
  * Use the {@link ProtocolFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -85,11 +86,22 @@ public class ProtocolFragment extends android.support.v4.app.Fragment {
                 protocol = new Protocol(c);
                 String data = DateFormat.getDateFormat(getActivity()).format(new Date(protocol.getDate()));
                 String hora = DateFormat.getTimeFormat(getActivity()).format(new Date(protocol.getDate()));
+                if (protocol.getOperator().equals("OI")) {
+                    ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_oi);
+                } else if (protocol.getOperator().equals("TIM")) {
+                    ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_tim);
+                } else if (protocol.getOperator().equals("CLARO")) {
+                    ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_claro);
+                } else if (protocol.getOperator().equals("VIVO")) {
+                    ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_vivo);
+                } else {
+                    ((ImageView) v.findViewById(R.id.ic_operadora)).setImageDrawable(null);
+                }
                 ((TextView) v.findViewById(R.id.dateTV)).setText(data + " " + hora);
                 ((TextView) v.findViewById(R.id.etNumber)).setText(protocol.getNumber());
                 ((TextView) v.findViewById(R.id.etOperadora)).setText(protocol.getOperator());
                 ((TextView) v.findViewById(R.id.etObs)).setText(protocol.getObs());
-            }else{
+            } else {
                 ((TextView) v.findViewById(R.id.dateTV)).setText("");
                 ((TextView) v.findViewById(R.id.etNumber)).setText("");
                 ((TextView) v.findViewById(R.id.etOperadora)).setText("");
@@ -120,7 +132,6 @@ public class ProtocolFragment extends android.support.v4.app.Fragment {
         super.onDetach();
 
     }
-
 
 
 }

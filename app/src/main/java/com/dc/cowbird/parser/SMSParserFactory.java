@@ -14,24 +14,29 @@ public class SMSParserFactory {
 
         VivoSMS vivo = new VivoSMS();
         if (vivo.canParse(address, body)) {
-            Log.d(Constants.LOG_TAG,"Vivo "+address+": '"+body+"'");
+            Log.d(Constants.LOG_TAG, "Vivo " + address + ": '" + body + "'");
             return vivo.getProtocol(address, body, date, subject);
 
         } else {
             TimSMS tim = new TimSMS();
             if (tim.canParse(address, body)) {
-                Log.d(Constants.LOG_TAG,"TIM "+address+": '"+body+"'");
+                Log.d(Constants.LOG_TAG, "TIM " + address + ": '" + body + "'");
                 return tim.getProtocol(address, body, date, subject);
 
-            }else{
+            } else {
                 ClaroSMS claro = new ClaroSMS();
-
                 if (claro.canParse(address, body)) {
-                    Log.d(Constants.LOG_TAG,"Claro "+address+": '"+body+"'");
+                    Log.d(Constants.LOG_TAG, "Claro " + address + ": '" + body + "'");
                     return claro.getProtocol(address, body, date, subject);
 
-                }else{
-                    Log.d(Constants.LOG_TAG,"Não identificiado Parsing "+address+": '"+body+"'");
+                } else {
+                    OiSMS oi = new OiSMS();
+                    if (oi.canParse(address, body)) {
+                        Log.d(Constants.LOG_TAG, "Oi " + address + ": '" + body + "'");
+                        return oi.getProtocol(address, body, date, subject);
+                    } else {
+                        Log.d(Constants.LOG_TAG, "Não identificiado Parsing " + address + ": '" + body + "'");
+                    }
                 }
             }
         }
@@ -39,6 +44,7 @@ public class SMSParserFactory {
 
         return null;
     }
+
     public static Protocol getInstance(Cursor c) {
 
         Long date = c.getLong(c.getColumnIndex("date"));

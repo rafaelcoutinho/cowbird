@@ -35,7 +35,7 @@
         android:layout_margin="16dp"
         android:clickable="true"
         app:backgroundTint="@color/actionbar_background"
-        android:src="@drawable/plus_icon"
+        android:src="@drawable/plus_white"
         android:baselineAlignBottom="false"
         app:elevation="10dp"
         app:borderWidth="0dp"
