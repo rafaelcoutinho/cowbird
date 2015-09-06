@@ -18,6 +18,7 @@ public class Protocol {
             "date integer, " +
             "operator text," +
             "obs text, " +
+            "auto integer default 1, " +
             "full_source text, " +
             "outcome text, " +
             "UNIQUE(number)" +
@@ -34,12 +35,22 @@ public class Protocol {
     long date = 0;
     String operator;
     String obs;
+    boolean auto = true;
     String fullSource;
     Outcome outcome = Outcome.NA;
     private String number = "?";
 
+    public boolean isAuto() {
+        return auto;
+    }
+
+    public void setAuto(boolean auto) {
+        this.auto = auto;
+    }
+
     public Protocol(String number, String operator, long date, String fullsSms) {
         this.date = date;
+
         this.number = number;
         this.operator = operator;
         this.fullSource = fullsSms;
@@ -53,6 +64,7 @@ public class Protocol {
         this.fullSource = c.getString(c.getColumnIndex("full_source"));
         this.obs = c.getString(c.getColumnIndex("obs"));
         this.operator = c.getString(c.getColumnIndex("operator"));
+        this.auto = c.getInt(c.getColumnIndex("auto")) == 1;
         this.outcome = Outcome.valueOf(c.getString(c.getColumnIndex("outcome")));
 
     }
@@ -99,6 +111,7 @@ public class Protocol {
         cv.put("obs", obs);
         cv.put("operator", operator);
         cv.put("outcome", outcome.name());
+        cv.put("auto", auto ? 1 : 0);
         return cv;
     }
 
