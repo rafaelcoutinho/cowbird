@@ -21,7 +21,6 @@
         android:layout_alignParentRight="true"
         android:scaleType="fitXY"
         android:layout_alignParentEnd="true"
-        android:background="#50FFFFFF"
         android:src="@drawable/ic_vivo" />
 
     <EditText
