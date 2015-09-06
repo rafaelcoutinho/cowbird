@@ -10,34 +10,21 @@ import com.dc.cowbird.vo.Protocol;
  * Created by coutinho on 26/08/15.
  */
 public class SMSParserFactory {
+    private static SMSParserFactory instance;
+    SMSParser[] parsers;
+
+    SMSParserFactory() {
+        parsers = new SMSParser[]{new VivoSMS(), new TimSMS(), new ClaroSMS(), new OiSMS()};
+    }
+
     public static Protocol getInstance(Long date, String subject, String body, String address) {
-
-        VivoSMS vivo = new VivoSMS();
-        if (vivo.canParse(address, body)) {
-            Log.d(Constants.LOG_TAG, "Vivo " + address + ": '" + body + "'");
-            return vivo.getProtocol(address, body, date, subject);
-
-        } else {
-            TimSMS tim = new TimSMS();
-            if (tim.canParse(address, body)) {
-                Log.d(Constants.LOG_TAG, "TIM " + address + ": '" + body + "'");
-                return tim.getProtocol(address, body, date, subject);
-
-            } else {
-                ClaroSMS claro = new ClaroSMS();
-                if (claro.canParse(address, body)) {
-                    Log.d(Constants.LOG_TAG, "Claro " + address + ": '" + body + "'");
-                    return claro.getProtocol(address, body, date, subject);
-
-                } else {
-                    OiSMS oi = new OiSMS();
-                    if (oi.canParse(address, body)) {
-                        Log.d(Constants.LOG_TAG, "Oi " + address + ": '" + body + "'");
-                        return oi.getProtocol(address, body, date, subject);
-                    } else {
-                        Log.d(Constants.LOG_TAG, "Não identificiado Parsing " + address + ": '" + body + "'");
-                    }
-                }
+        if (instance == null) {
+            instance = new SMSParserFactory();
+        }
+        for (SMSParser parser : instance.parsers) {
+            if (parser.canParse(address, body)) {
+                Log.d(Constants.LOG_TAG, parser + " " + address + ": '" + body + "'");
+                return parser.getProtocol(address, body, date, subject);
             }
         }
 
