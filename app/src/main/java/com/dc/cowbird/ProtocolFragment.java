@@ -1,22 +1,31 @@
 package com.dc.cowbird;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.dc.cowbird.provider.ContentConstants;
 import com.dc.cowbird.vo.Protocol;
 
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -28,7 +37,7 @@ import java.util.Date;
  * Use the {@link ProtocolFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProtocolFragment extends android.support.v4.app.Fragment {
+public class ProtocolFragment extends android.support.v4.app.Fragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "paramId";
@@ -46,7 +55,7 @@ public class ProtocolFragment extends android.support.v4.app.Fragment {
      *
      * @return A new instance of fragment ProtocolFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static ProtocolFragment newInstance(Long idProtocol) {
         ProtocolFragment fragment = new ProtocolFragment();
         Bundle args = new Bundle();
@@ -76,45 +85,178 @@ public class ProtocolFragment extends android.support.v4.app.Fragment {
         super.onDestroyView();
     }
 
+    public static class DatePickerFragment extends DialogFragment {
+        DatePickerDialog.OnDateSetListener listener;
+
+        public static DatePickerFragment newInstance(Calendar c, DatePickerDialog.OnDateSetListener list) {
+            DatePickerFragment fragment = new DatePickerFragment();
+            Bundle args = new Bundle();
+            args.putInt("year", c.get(Calendar.YEAR));
+            args.putInt("month", c.get(Calendar.MONTH));
+            args.putInt("day", c.get(Calendar.DAY_OF_MONTH));
+
+            fragment.setArguments(args);
+            fragment.listener = list;
+            return fragment;
+        }
+
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Bundle bundle = getArguments();
+
+            return new DatePickerDialog(getActivity(), listener, bundle.getInt("year"), bundle.getInt("month"), bundle.getInt("day"));
+        }
+
+
+    }
+
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        protocolDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        protocolDate.set(Calendar.MINUTE, minute);
+        protocolDate.set(Calendar.SECOND, 0);
+        protocolDate.set(Calendar.MILLISECOND, 0);
+        updateDate(getView(), protocolDate.getTimeInMillis());
+    }
+
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        protocolDate.set(Calendar.YEAR, year);
+        protocolDate.set(Calendar.MONTH, month);
+        protocolDate.set(Calendar.DAY_OF_MONTH, day);
+
+        updateDate(getView(), protocolDate.getTimeInMillis());
+        TimePickerFragment newFragment = TimePickerFragment.newInstance(protocolDate, ProtocolFragment.this);
+
+        newFragment.show(getActivity().getFragmentManager(), "timePicker");
+    }
+
+    Calendar protocolDate = Calendar.getInstance();
+
+    public static class TimePickerFragment extends DialogFragment {
+        TimePickerDialog.OnTimeSetListener list;
+
+        public static TimePickerFragment newInstance(Calendar c, TimePickerDialog.OnTimeSetListener list) {
+            TimePickerFragment fragment = new TimePickerFragment();
+            Bundle args = new Bundle();
+            args.putInt("hour", c.get(Calendar.HOUR_OF_DAY));
+            args.putInt("minute", c.get(Calendar.MINUTE));
+
+
+            fragment.setArguments(args);
+            fragment.list = list;
+            return fragment;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+
+            Bundle bundle = getArguments();
+            int hour = bundle.getInt("hour");
+            int minute = bundle.getInt("minute");
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), list, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
+
+    }
+
+    private void updateDate(View v, long date) {
+        String data = DateFormat.getDateFormat(getActivity()).format(new Date(date));
+        String hora = DateFormat.getTimeFormat(getActivity()).format(new Date(date));
+        ((TextView) v.findViewById(R.id.dateTV)).setText(data + " " + hora);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_protocol, container, false);
         if (mParam1 != null) {
-            Cursor c = getActivity().getContentResolver().query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, "_id=?", new String[]{mParam1.toString()}, null);
-            if (c.moveToFirst()) {
-                protocol = new Protocol(c);
-                String data = DateFormat.getDateFormat(getActivity()).format(new Date(protocol.getDate()));
-                String hora = DateFormat.getTimeFormat(getActivity()).format(new Date(protocol.getDate()));
-                if (protocol.getOperator().equals("OI")) {
-                    ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_oi);
-                } else if (protocol.getOperator().equals("TIM")) {
-                    ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_tim);
-                } else if (protocol.getOperator().equals("CLARO")) {
-                    ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_claro);
-                } else if (protocol.getOperator().equals("VIVO")) {
-                    ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_vivo);
+            ((AutoCompleteTextView) v.findViewById(R.id.etOperadora)).setFocusable(false);
+            ((AutoCompleteTextView) v.findViewById(R.id.etOperadora)).setClickable(false);
+            ((TextView) v.findViewById(R.id.etNumber)).setFocusable(false);
+            ((TextView) v.findViewById(R.id.etNumber)).setClickable(false);
+
+            Cursor c = null;
+            try {
+                c = getActivity().getContentResolver().query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, "_id=?", new String[]{mParam1.toString()}, null);
+                if (c.moveToFirst()) {
+                    protocol = new Protocol(c);
+
+                    if (protocol.getOperator().equals("OI")) {
+                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_oi);
+                    } else if (protocol.getOperator().equals("TIM")) {
+                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_tim);
+                    } else if (protocol.getOperator().equals("CLARO")) {
+                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_claro);
+                    } else if (protocol.getOperator().equals("VIVO")) {
+                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_vivo);
+                    } else {
+                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageDrawable(null);
+                    }
+                    updateDate(v, protocol.getDate());
+                    ((TextView) v.findViewById(R.id.etNumber)).setText(protocol.getNumber());
+                    ((TextView) v.findViewById(R.id.etOperadora)).setText(protocol.getOperator());
+                    ((TextView) v.findViewById(R.id.etObs)).setText(protocol.getObs());
                 } else {
-                    ((ImageView) v.findViewById(R.id.ic_operadora)).setImageDrawable(null);
+                    ((TextView) v.findViewById(R.id.dateTV)).setText("");
+                    ((TextView) v.findViewById(R.id.etNumber)).setText("");
+                    ((TextView) v.findViewById(R.id.etOperadora)).setText("");
+                    ((TextView) v.findViewById(R.id.etObs)).setText("");
+                    ((EditText) v.findViewById(R.id.etNumber)).setEnabled(true);
+                    ((EditText) v.findViewById(R.id.etOperadora)).setEnabled(true);
+                    ((EditText) v.findViewById(R.id.etObs)).setEnabled(true);
                 }
-                ((TextView) v.findViewById(R.id.dateTV)).setText(data + " " + hora);
-                ((TextView) v.findViewById(R.id.etNumber)).setText(protocol.getNumber());
-                ((TextView) v.findViewById(R.id.etOperadora)).setText(protocol.getOperator());
-                ((TextView) v.findViewById(R.id.etObs)).setText(protocol.getObs());
-            } else {
-                ((TextView) v.findViewById(R.id.dateTV)).setText("");
-                ((TextView) v.findViewById(R.id.etNumber)).setText("");
-                ((TextView) v.findViewById(R.id.etOperadora)).setText("");
-                ((TextView) v.findViewById(R.id.etObs)).setText("");
-                ((EditText) v.findViewById(R.id.etNumber)).setEnabled(true);
-                ((EditText) v.findViewById(R.id.etOperadora)).setEnabled(true);
-                ((EditText) v.findViewById(R.id.etObs)).setEnabled(true);
+            } finally {
+                if (c != null) {
+                    c.close();
+                }
             }
-            c.close();
+
+        } else {
+            updateDate(v, protocolDate.getTimeInMillis());
+            v.findViewById(R.id.etOperadora).setEnabled(true);
+            ((TextView) v.findViewById(R.id.etNumber)).setEnabled(true);
+            ((TextView) v.findViewById(R.id.dateTV)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DatePickerFragment.newInstance(protocolDate, ProtocolFragment.this).show(getActivity().getFragmentManager(), "datePicker");
+                }
+            });
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_dropdown_item_1line, OPERATORS);
+            AutoCompleteTextView textView = (AutoCompleteTextView)
+                    v.findViewById(R.id.etOperadora);
+            textView.setAdapter(adapter);
+            textView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    View v = getView();
+                    if (OPERATORS[i].equals("OI")) {
+                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_oi);
+                    } else if (OPERATORS[i].equals("TIM")) {
+                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_tim);
+                    } else if (OPERATORS[i].equals("CLARO")) {
+                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_claro);
+                    } else if (OPERATORS[i].equals("VIVO")) {
+                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_vivo);
+                    } else {
+                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageDrawable(null);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
         }
         return v;
     }
 
+    String[] OPERATORS = new String[]{"CLARO", "OI", "TIM", "VIVO"};
 
     @Override
     public void onAttach(Activity activity) {
@@ -127,9 +269,11 @@ public class ProtocolFragment extends android.support.v4.app.Fragment {
 //        }
     }
 
+
     @Override
     public void onDetach() {
         super.onDetach();
+
 
     }
 

@@ -20,10 +20,9 @@
         android:layout_height="100dp"
         android:layout_alignParentRight="true"
         android:scaleType="fitXY"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_vivo" />
+        android:layout_alignParentEnd="true" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/etOperadora"
         style="@style/mainField"
         android:layout_width="match_parent"
@@ -31,7 +30,7 @@
         android:layout_below="@id/operLabel"
 
         android:layout_toLeftOf="@+id/ic_operadora"
-        android:editable="false"
+
         android:hint="Operadora"
         android:singleLine="true" />
 
@@ -70,8 +69,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/numLabel"
-        android:editable="false"
-        android:hint="20150815165"
+
+        android:hint="Número do protocolo"
         android:singleLine="true" />
 
 
@@ -84,6 +83,7 @@
         android:textSize="20sp"
         android:textColor="#FFFFFF"
         android:layout_below="@id/etNumber"
+
         android:text="Anotações" />
 
     <EditText
