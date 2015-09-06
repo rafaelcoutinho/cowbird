@@ -16,7 +16,7 @@ public class OiSMS implements SMSParser {
     final static String regextStr = "Oi, seguem os dados da sua solicitacao\\. Protocolo: (\\d*) do tipo (\\w*) foi aberto em (\\d{0,2}\\/\\d{0,2}\\/\\d{0,4}) (\\d{0,2}:\\d{0,2}:\\d{0,2})\\.";
     Pattern p = null;
 
-    boolean enableDebugSms = true;
+    boolean enableDebugSms = false;
 
     public OiSMS() {
         p = Pattern.compile(regextStr);
@@ -24,7 +24,7 @@ public class OiSMS implements SMSParser {
 
     @Override
     public boolean canParse(String address, String body) {
-        if ((enableDebugSms || "7588".equals(address)) && body.startsWith("Oi")) {
+        if ((enableDebugSms || ("7588".equals(address)) && body.startsWith("Oi"))) {
             System.out.println("Parseando Oi " + body);
 
             System.out.println(p.matcher(body).matches() + "");

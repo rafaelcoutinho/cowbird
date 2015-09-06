@@ -35,8 +35,6 @@ public class MainControlActivity extends ActionBarActivity
                 .replace(R.id.container, ProtocolFragment.newInstance(id))
                 .addToBackStack("Protocolo")
                 .commit();
-
-
     }
 
     @Override

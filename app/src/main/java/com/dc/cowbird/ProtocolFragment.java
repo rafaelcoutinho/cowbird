@@ -81,6 +81,17 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
             ContentValues cv = new ContentValues();
             cv.put("obs", ((TextView) getView().findViewById(R.id.etObs)).getText().toString().trim());
             getActivity().getContentResolver().update(ContentConstants.ProtocolURLs.URLProtocol.asURL(), cv, "_id=?", new String[]{mParam1.toString()});
+        } else {
+
+
+            String number = ((TextView) getView().findViewById(R.id.etNumber)).getText().toString().trim();
+            if (number.length() > 0) {
+
+                Protocol p = new Protocol(number, ((TextView) getView().findViewById(R.id.etOperadora)).getText().toString().trim(), protocolDate.getTimeInMillis(), "");
+                p.setAuto(false);
+
+                getActivity().getContentResolver().insert(ContentConstants.ProtocolURLs.URLProtocol.asURL(), p.toContentValues());
+            }
         }
         super.onDestroyView();
     }
@@ -173,17 +184,20 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_protocol, container, false);
         if (mParam1 != null) {
-            ((AutoCompleteTextView) v.findViewById(R.id.etOperadora)).setFocusable(false);
-            ((AutoCompleteTextView) v.findViewById(R.id.etOperadora)).setClickable(false);
-            ((TextView) v.findViewById(R.id.etNumber)).setFocusable(false);
-            ((TextView) v.findViewById(R.id.etNumber)).setClickable(false);
+
 
             Cursor c = null;
             try {
                 c = getActivity().getContentResolver().query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, "_id=?", new String[]{mParam1.toString()}, null);
                 if (c.moveToFirst()) {
                     protocol = new Protocol(c);
+                    if (protocol.isAuto()) {
+                        ((AutoCompleteTextView) v.findViewById(R.id.etOperadora)).setFocusable(false);
+                        ((AutoCompleteTextView) v.findViewById(R.id.etOperadora)).setClickable(false);
+                        ((TextView) v.findViewById(R.id.etNumber)).setFocusable(false);
+                        ((TextView) v.findViewById(R.id.etNumber)).setClickable(false);
 
+                    }
                     if (protocol.getOperator().equals("OI")) {
                         ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_oi);
                     } else if (protocol.getOperator().equals("TIM")) {
@@ -214,7 +228,9 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                 }
             }
 
-        } else {
+        }
+
+        if (mParam1 == null || (protocol != null && !protocol.isAuto())) {
             updateDate(v, protocolDate.getTimeInMillis());
             v.findViewById(R.id.etOperadora).setEnabled(true);
             ((TextView) v.findViewById(R.id.etNumber)).setEnabled(true);
