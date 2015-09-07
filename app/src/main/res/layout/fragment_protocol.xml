@@ -18,9 +18,9 @@
         android:id="@+id/ic_operadora"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:scaleType="fitXY"
-        android:layout_alignParentEnd="true" />
+        android:scaleType="fitXY" />
 
     <AutoCompleteTextView
         android:id="@+id/etOperadora"
@@ -50,14 +50,14 @@
         android:id="@+id/numLabel"
         style="@style/mainField"
         android:layout_width="wrap_content"
-        android:textSize="20sp"
+        android:layout_below="@id/dateTV"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
         android:layout_marginStart="0dp"
         android:background="@android:color/transparent"
         android:gravity="bottom"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_below="@id/dateTV"
-        android:text="Número protocolo" />
+        android:text="Número protocolo"
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/etNumber"
@@ -71,27 +71,26 @@
 
     <TextView
         android:id="@+id/obsLabel"
-        android:layout_marginTop="5dp"
         style="@style/labelStyle"
-        android:gravity="center"
-        android:background="@color/actionbar_background"
-        android:textSize="20sp"
-        android:textColor="#FFFFFF"
         android:layout_below="@id/etNumber"
-        android:text="Anotações" />
+        android:layout_marginTop="5dp"
+        android:background="@color/actionbar_background"
+        android:gravity="center"
+        android:text="Anotações"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/etObs"
         style="@style/mainField"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/obsLabel"
         android:layout_marginLeft="0dp"
         android:layout_marginStart="0dp"
         android:background="#80FFFFFF"
         android:gravity="top"
-        android:lines="3"
-        android:minLines="3" />
+        android:minLines="5"/>
 
 
 </RelativeLayout>

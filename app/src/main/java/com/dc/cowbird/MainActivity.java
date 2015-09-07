@@ -41,7 +41,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         lvMsg = (ListView) findViewById(R.id.lvMsg);
         // Get Content Resolver object, which will deal with Content Provider
         ContentResolver cr = getContentResolver();
@@ -49,7 +48,6 @@ public class MainActivity extends Activity {
         // Fetch Inbox SMS Message from Built-in Content Provider
         c = cr.query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, null, null, "date desc");
         adapter = new MyCursorAdapter(getApplicationContext(), c, true);
-
 
         lvMsg.setAdapter(adapter);
         lvMsg.setEmptyView(findViewById(R.id.lblEmpty));
