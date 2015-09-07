@@ -245,29 +245,27 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                     android.R.layout.simple_dropdown_item_1line, OPERATORS);
             AutoCompleteTextView textView = (AutoCompleteTextView)
                     v.findViewById(R.id.etOperadora);
+            textView.setThreshold(1);
+            //TODO make the selection to load from db
+//            textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                    View v = getView();
+//                    if (OPERATORS[i].equals("OI")) {
+//                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_oi);
+//                    } else if (OPERATORS[i].equals("TIM")) {
+//                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_tim);
+//                    } else if (OPERATORS[i].equals("CLARO")) {
+//                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_claro);
+//                    } else if (OPERATORS[i].equals("VIVO")) {
+//                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_vivo);
+//                    } else {
+//                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageDrawable(null);
+//                    }
+//                }
+//            });
             textView.setAdapter(adapter);
-            textView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    View v = getView();
-                    if (OPERATORS[i].equals("OI")) {
-                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_oi);
-                    } else if (OPERATORS[i].equals("TIM")) {
-                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_tim);
-                    } else if (OPERATORS[i].equals("CLARO")) {
-                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_claro);
-                    } else if (OPERATORS[i].equals("VIVO")) {
-                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_vivo);
-                    } else {
-                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageDrawable(null);
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                }
-            });
+         
         }
         return v;
     }
