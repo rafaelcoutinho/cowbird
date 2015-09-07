@@ -4,15 +4,16 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 public class MainControlActivity extends ActionBarActivity
@@ -142,6 +143,14 @@ public class MainControlActivity extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main_control, container, false);
+
+            ((TextView) rootView.findViewById(R.id.full_text)).setText(Html.fromHtml(
+                    "<p><b>Organizando protocolos</b><br/>" +
+                            "Os seus protocolos recebidos por SMS são automaticamente carregados no aplicativo. Também é possível adicionar novos protocolos manualmente.</p>" +
+                            "<p><b>Adicionar Comentários</b><br/>Os protocolos podem ter anotações pessoais para facilitar o seu controle de qual protocolo se refere a qual solicitação.</p>" +
+                            "<p><b>Apagar Protocolos</b><br>Caso um protocolo não seja mais importante você pode apagá-lo. Pressione-o por 3 segundos na lista de protocolos para iniciar a remoção.</p>" +
+                            "<p><b>Precisa de Ajuda</b><br/>Caso esteja com problemas para utilizar o aplicativo ou gostaria de ter uma nova operadora controlada automaticamente pelo aplicativo acesse estes <a href='https://github.com/rafaelcoutinho/cowbird/issues'>link</a> ou envie um e-mail para: <a href='mailto:anotaprotocolo@gmail.com'>anotaprotocolo@gmail.com</a></p>" +
+                            "<hr/><p>Desenvolvido por <a href='https://github.com/DaviRSSilva'>Davi Ribeiro</a> e <a href='https://github.com/rafaelcoutinho'>Rafael Coutinho</a><br>Licenciado sob GPLv2</p>"));
             return rootView;
         }
 
