@@ -28,9 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/operLabel"
-
         android:layout_toLeftOf="@+id/ic_operadora"
-
         android:hint="Operadora"
         android:singleLine="true" />
 
@@ -45,7 +43,6 @@
         android:id="@+id/dateTV"
         style="@style/mainField"
         android:layout_below="@id/dateLabel"
-        android:layout_alignBottom="@+id/ic_operadora"
         android:text="00/00/00" />
 
 
@@ -58,7 +55,6 @@
         android:background="@android:color/transparent"
         android:gravity="bottom"
         android:layout_marginLeft="0dp"
-        android:paddingBottom="5dp"
         android:layout_marginRight="0dp"
         android:layout_below="@id/dateTV"
         android:text="Número protocolo" />
@@ -69,7 +65,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/numLabel"
-
         android:hint="Número do protocolo"
         android:singleLine="true" />
 
@@ -83,7 +78,6 @@
         android:textSize="20sp"
         android:textColor="#FFFFFF"
         android:layout_below="@id/etNumber"
-
         android:text="Anotações" />
 
     <EditText

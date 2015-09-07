@@ -1,8 +1,10 @@
 package com.dc.cowbird;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.media.Image;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -34,7 +37,7 @@ import java.util.Date;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class ListProtocolsFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class ListProtocolsFragment extends Fragment implements AbsListView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
 
     private OnFragmentInteractionListener mListener;
@@ -97,6 +100,7 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
         mListView.setOnItemClickListener(this);
         mListView.setEmptyView(view.findViewById(R.id.lblEmpty));
         mListView.addHeaderView(inflater.inflate(R.layout.row_title, null));
+        mListView.setOnItemLongClickListener(this);
         mFloatingBtn = (FloatingActionButton) view.findViewById(R.id.btnNew);
         mFloatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +155,27 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
         }
     }
 
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+        new AlertDialog.Builder(getActivity()).setTitle("Deletar").setMessage("Tem certeza que dejesa deletar este protocolo?").setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Cursor c = ((MyCursorAdapter) ((HeaderViewListAdapter) mListView.getAdapter()).getWrappedAdapter()).getCursor();
+                c.moveToPosition(position - 1);
+                Protocol protocol = new Protocol(c);
+                getActivity().getContentResolver().delete(ContentConstants.ProtocolURLs.URLProtocol.asURL(), "_id=?", new String[]{String.valueOf(protocol.getId())});
+                mListView.deferNotifyDataSetChanged();
+            }
+        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //NAO FAZ NADA
+            }
+        }).show();
+
+        return true;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -173,6 +198,11 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
             return getActivity().getLayoutInflater().inflate(R.layout.row, null);
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return super.getItem(position);
         }
 
         @Override
