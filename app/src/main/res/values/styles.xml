@@ -1,5 +1,8 @@
 <resources>
-
+    <style name="CustomActionBarTheme.Launcher">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:colorPrimaryDark">@color/actionbar_background</item>
+    </style>
     <!-- Base application theme. -->
     <style name="CustomActionBarTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/MyActionBar</item>
