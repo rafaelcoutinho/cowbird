@@ -14,7 +14,7 @@
         android:layout_marginLeft="12dp"
         android:visibility="visible"
         android:layout_marginStart="12dp"
-        android:text="Nenhum SMS com protocolos conhecidos encontrado."
+        android:text="Nenhum protocolo encontrado. Crie um manualmente ou notifique a equipe do AnotaProtocol sobre algum protocolo que deveria ter sido encontrado automaticamente."
         android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
 
 
