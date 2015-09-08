@@ -14,7 +14,7 @@ public class SMSParserFactory {
     SMSParser[] parsers;
 
     SMSParserFactory() {
-        parsers = new SMSParser[]{new VivoSMS(), new TimSMS(), new ClaroSMS(), new OiSMS()};
+        parsers = new SMSParser[]{new VivoSMS(), new TimSMS(), new Tim2SMS(), new ClaroSMS(), new OiSMS()};
     }
 
     public static Protocol getInstance(Long date, String subject, String body, String address) {

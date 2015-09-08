@@ -265,7 +265,7 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
 //                }
 //            });
             textView.setAdapter(adapter);
-         
+
         }
         return v;
     }

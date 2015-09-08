@@ -77,6 +77,10 @@ public class Protocol {
         return date;
     }
 
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
+
     public String getOperator() {
         return operator;
     }
