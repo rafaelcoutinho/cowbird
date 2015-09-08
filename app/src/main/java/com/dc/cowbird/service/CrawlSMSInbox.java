@@ -61,6 +61,16 @@ public class CrawlSMSInbox extends IntentService {
             // Get Content Resolver object, which will deal with Content Provider
             ContentResolver cr = getContentResolver();
             Long lastExecution = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getLong("lastCheck", 0);
+            Integer versionCode = 0;
+            try {
+                Integer lastVersion = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("lastVersion", 0);
+                versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+                if (lastVersion != versionCode) {
+                    lastExecution = 0l;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             // Fetch Inbox SMS Message from Built-in Content Provider
             smsCursor = cr.query(inboxURI, reqCols, "date>?", new String[]{
                     lastExecution.toString()
@@ -78,6 +88,7 @@ public class CrawlSMSInbox extends IntentService {
                     }
                 } while (smsCursor.moveToNext());
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putLong("lastCheck", System.currentTimeMillis()).commit();
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("lastVersion", versionCode).commit();
             }
         } finally {
             if (smsCursor != null) {
