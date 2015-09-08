@@ -87,7 +87,7 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
             String number = ((TextView) getView().findViewById(R.id.etNumber)).getText().toString().trim();
             if (number.length() > 0) {
 
-                Protocol p = new Protocol(number, ((TextView) getView().findViewById(R.id.etOperadora)).getText().toString().trim(), protocolDate.getTimeInMillis(), "");
+                Protocol p = new Protocol(number, ((TextView) getView().findViewById(R.id.etOperadora)).getText().toString().trim().toUpperCase(), protocolDate.getTimeInMillis(), "");
                 p.setAuto(false);
 
                 getActivity().getContentResolver().insert(ContentConstants.ProtocolURLs.URLProtocol.asURL(), p.toContentValues());

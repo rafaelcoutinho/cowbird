@@ -208,6 +208,7 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
             Protocol p = new Protocol(cursor);
+            ((TextView) view.findViewById(R.id.lblOperator)).setText("");
             if ("VIVO".equalsIgnoreCase(p.getOperator())) {
                 ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_vivo);
             } else if ("TIM".equalsIgnoreCase(p.getOperator())) {
@@ -218,10 +219,11 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
                 ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_oi);
             } else {
                 ((ImageView) view.findViewById(R.id.imageView)).setImageDrawable(null);
+                ((TextView) view.findViewById(R.id.lblOperator)).setText(p.getOperator());
             }
             ((TextView) view.findViewById(R.id.lblDate)).setText(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date(p.getDate())));
             ((TextView) view.findViewById(R.id.lblNumber)).setText(p.getNumber());
-            ((TextView) view.findViewById(R.id.lblOperator)).setText(p.getOperator());
+
         }
     }
 

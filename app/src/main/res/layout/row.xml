@@ -32,13 +32,14 @@
         android:id="@+id/lblOperator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/imageView"
+        android:gravity="center"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/imageView"
-        android:layout_alignRight="@+id/imageView"
         android:layout_alignStart="@+id/imageView"
-        android:gravity="center_horizontal"
-        android:text="Operadora"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:layout_alignRight="@+id/imageView"
+        android:layout_alignEnd="@+id/imageView" />
 
     <TextView
         android:id="@+id/lblNumber"
