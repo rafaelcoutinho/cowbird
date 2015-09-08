@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,6 +152,7 @@ public class MainControlActivity extends ActionBarActivity
                             "<p><b>Apagar Protocolos</b><br>Caso um protocolo não seja mais importante você pode apagá-lo. Pressione-o por 3 segundos na lista de protocolos para iniciar a remoção.</p>" +
                             "<p><b>Precisa de Ajuda</b><br/>Caso esteja com problemas para utilizar o aplicativo ou gostaria de ter uma nova operadora controlada automaticamente pelo aplicativo acesse estes <a href='https://github.com/rafaelcoutinho/cowbird/issues'>link</a> ou envie um e-mail para: <a href='mailto:anotaprotocolo@gmail.com'>anotaprotocolo@gmail.com</a></p>" +
                             "<hr/><p>Desenvolvido por <a href='https://github.com/DaviRSSilva'>Davi Ribeiro</a> e <a href='https://github.com/rafaelcoutinho'>Rafael Coutinho</a><br>Licenciado sob GPLv2</p>"));
+            ((TextView) rootView.findViewById(R.id.full_text)).setMovementMethod(LinkMovementMethod.getInstance());
             return rootView;
         }
 
