@@ -157,7 +157,7 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-        new AlertDialog.Builder(getActivity()).setTitle("Deletar").setMessage("Tem certeza que dejesa deletar este protocolo?").setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(getActivity()).setTitle("Deletar").setMessage("Tem certeza que deseja deletar este protocolo?").setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Cursor c = ((MyCursorAdapter) ((HeaderViewListAdapter) mListView.getAdapter()).getWrappedAdapter()).getCursor();
