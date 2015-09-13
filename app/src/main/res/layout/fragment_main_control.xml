@@ -9,11 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.dc.cowbird.MainControlActivity$PlaceholderFragment">
 
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="O AnotaProtocolo permite que você mantenha organizados todos os números de protocolos de operadoras que você tiver." />
 
 
     <TextView
@@ -24,7 +19,7 @@
         android:clickable="true"
 
 
-        android:layout_below="@+id/section_label"
+
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 </RelativeLayout>

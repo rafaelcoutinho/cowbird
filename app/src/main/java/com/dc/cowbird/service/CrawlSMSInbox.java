@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.util.Log;
 import com.dc.cowbird.Constants;
 import com.dc.cowbird.parser.SMSParserFactory;
 import com.dc.cowbird.provider.ContentConstants;
+
 import com.dc.cowbird.vo.Protocol;
 
 /**
@@ -82,6 +84,8 @@ public class CrawlSMSInbox extends IntentService {
                     if (protocol != null) {
                         try {
                             cr.insert(ContentConstants.ProtocolURLs.URLProtocol.asURL(), protocol.toContentValues());
+                        } catch (SQLiteConstraintException e) {
+                            Log.i(Constants.LOG_TAG, "Protocol '" + protocol + "' was already added");
                         } catch (Exception e) {
                             Log.w(Constants.LOG_TAG, "Could not save SMS", e);
                         }

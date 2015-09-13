@@ -1,5 +1,6 @@
 package com.dc.cowbird.service;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -46,11 +47,14 @@ public class IncomingSMS extends BroadcastReceiver {
                 if (protocol != null) {
                     try {
                         Uri uri = cr.insert(ContentConstants.ProtocolURLs.URLProtocol.asURL(), protocol.toContentValues());
+
                         NotificationCompat.Builder mBuilder =
                                 new NotificationCompat.Builder(context)
                                         .setSmallIcon(R.drawable.ic_new_protocol)
-                                        .setContentTitle("Novo protocolo")
-                                        .setContentText("Identificamos um novo protocol! Clique aqui para adicionar mais informações a ele.");
+                                        .setContentTitle("Anotamos novo protocolo")
+                                        .setContentInfo("AnotaProtocolo")
+                                        .setContentText("Adicione mais detalhes a ele.")
+                                        ;
                         Intent resultIntent = new Intent(context, MainControlActivity.class);
                         resultIntent.putExtra("uri", uri.getLastPathSegment());
 
