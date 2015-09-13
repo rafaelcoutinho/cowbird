@@ -12,8 +12,8 @@
         android:layout_below="@+id/lblOperator"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="5dp"
-        android:layout_marginStart="12dp"
-        android:src="@mipmap/ic_tim" />
+        android:src="@mipmap/ic_tim"
+        android:layout_alignParentTop="true" />
 
     <TextView
         android:id="@+id/lblDate"
@@ -35,23 +35,45 @@
         android:gravity="center"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/imageView"
-        android:layout_alignStart="@+id/imageView"
-        android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView" />
+        android:layout_alignStart="@+id/imageView" />
 
-    <TextView
-        android:id="@+id/lblNumber"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:gravity="center_vertical"
-        android:paddingRight="10dp"
-        android:text="Numero"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="7dp">
+
+        <TextView
+            android:id="@+id/lblNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="right"
+            android:text="Numero"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=""
+            android:id="@+id/lblObservation"
+            android:layout_below="@+id/lblNumber"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textStyle="italic"
+            android:layout_alignParentBottom="false"
+            android:layout_gravity="right"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

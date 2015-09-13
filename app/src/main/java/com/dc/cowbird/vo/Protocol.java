@@ -120,4 +120,7 @@ public class Protocol {
     }
 
 
+    public boolean hasObservations() {
+        return obs!=null && !obs.isEmpty();
+    }
 }

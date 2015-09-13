@@ -6,7 +6,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -223,6 +222,17 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
             }
             ((TextView) view.findViewById(R.id.lblDate)).setText(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date(p.getDate())));
             ((TextView) view.findViewById(R.id.lblNumber)).setText(p.getNumber());
+            if (p.hasObservations()) {
+                ((TextView) view.findViewById(R.id.lblObservation)).setVisibility(View.VISIBLE);
+                String obs = p.getObs();
+                if(obs.length()>30){
+                    obs = obs.substring(0,30)+"...";
+                }
+                ((TextView) view.findViewById(R.id.lblObservation)).setText(obs);
+            } else {
+                ((TextView) view.findViewById(R.id.lblObservation)).setVisibility(View.GONE);
+            }
+
 
         }
     }
