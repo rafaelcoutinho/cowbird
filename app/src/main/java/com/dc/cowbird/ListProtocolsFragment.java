@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -221,7 +222,7 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
                 ((TextView) view.findViewById(R.id.lblOperator)).setText(p.getOperator());
             }
             ((TextView) view.findViewById(R.id.lblDate)).setText(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date(p.getDate())));
-            ((TextView) view.findViewById(R.id.lblNumber)).setText(p.getNumber());
+
             if (p.hasObservations()) {
                 ((TextView) view.findViewById(R.id.lblObservation)).setVisibility(View.VISIBLE);
                 String obs = p.getObs();
@@ -231,6 +232,11 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
                 ((TextView) view.findViewById(R.id.lblObservation)).setText(obs);
             } else {
                 ((TextView) view.findViewById(R.id.lblObservation)).setVisibility(View.GONE);
+            }
+            if(p.isWasSeen()){
+                ((TextView) view.findViewById(R.id.lblNumber)).setText(p.getNumber());
+            }else{
+                ((TextView) view.findViewById(R.id.lblNumber)).setText(Html.fromHtml("<b>"+p.getNumber()+"</b>"));
             }
 
 

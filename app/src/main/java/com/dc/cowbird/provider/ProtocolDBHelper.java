@@ -10,7 +10,7 @@ import com.dc.cowbird.vo.Protocol;
  * Created by coutinho on 27/08/15.
  */
 class ProtocolDBHelper extends SQLiteOpenHelper {
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
     public static String DB_NAME = "PROTOCOLNOTEDB";
 
     public ProtocolDBHelper(Context ctx) {
@@ -29,8 +29,10 @@ class ProtocolDBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int fromVersion, int toVerson) {
+        if (toVerson == 3) {
+            sqLiteDatabase.execSQL(Protocol.UPGRADE_2_3);
+        }
     }
 
 

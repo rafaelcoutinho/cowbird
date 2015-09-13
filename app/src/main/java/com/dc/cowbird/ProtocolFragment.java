@@ -13,7 +13,6 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
@@ -227,6 +226,8 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                     c.close();
                 }
             }
+            protocol.setIsSeen();
+            getActivity().getContentResolver().update(ContentConstants.ProtocolURLs.URLProtocol.asURL(), protocol.toContentValues(), "number=?", new String[]{protocol.getNumber()});
 
         }
 

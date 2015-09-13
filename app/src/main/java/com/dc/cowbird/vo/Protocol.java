@@ -21,21 +21,24 @@ public class Protocol {
             "auto integer default 1, " +
             "full_source text, " +
             "outcome text, " +
+            "wasseen int default 0, " +
+
             "UNIQUE(number)" +
             ")";
     public static final String[] CREATE_INDEXES = {
             "CREATE INDEX protocol_0 ON protocol(number)",
             "CREATE INDEX protocol_1 ON protocol(date)",
             "CREATE INDEX protocol_2 ON protocol(operator)"
-
-
     };
+    public static final String UPGRADE_2_3 = "ALTER TABLE protocol ADD COLUMN wasseen int";
+
     public static final String TABLE_NAME = "protocol";
     long id = -1;
     long date = 0;
     String operator;
     String obs;
     boolean auto = true;
+    boolean wasSeen = false;
     String fullSource;
     Outcome outcome = Outcome.NA;
     private String number = "?";
@@ -65,6 +68,7 @@ public class Protocol {
         this.obs = c.getString(c.getColumnIndex("obs"));
         this.operator = c.getString(c.getColumnIndex("operator"));
         this.auto = c.getInt(c.getColumnIndex("auto")) == 1;
+        this.wasSeen = c.getInt(c.getColumnIndex("wasseen")) == 1;
         this.outcome = Outcome.valueOf(c.getString(c.getColumnIndex("outcome")));
 
     }
@@ -116,11 +120,19 @@ public class Protocol {
         cv.put("operator", operator);
         cv.put("outcome", outcome.name());
         cv.put("auto", auto ? 1 : 0);
+        cv.put("wasseen", wasSeen ? 1 : 0);
         return cv;
     }
 
+    public boolean isWasSeen() {
+        return wasSeen;
+    }
 
     public boolean hasObservations() {
         return obs!=null && !obs.isEmpty();
+    }
+
+    public void setIsSeen() {
+        wasSeen=true;
     }
 }
