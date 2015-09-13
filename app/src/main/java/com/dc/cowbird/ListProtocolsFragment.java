@@ -93,13 +93,14 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
 
         // Set the adapter
         mListView = (ListView) view.findViewById(android.R.id.list);
+        mListView.addHeaderView(inflater.inflate(R.layout.row_title, null));
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
 
         mListView.setOnItemClickListener(this);
         mListView.setEmptyView(view.findViewById(R.id.lblEmpty));
-        mListView.addHeaderView(inflater.inflate(R.layout.row_title, null));
+
         mListView.setOnItemLongClickListener(this);
         mFloatingBtn = (FloatingActionButton) view.findViewById(R.id.btnNew);
         mFloatingBtn.setOnClickListener(new View.OnClickListener() {
