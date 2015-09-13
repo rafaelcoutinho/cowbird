@@ -146,7 +146,7 @@ public class MainControlActivity extends ActionBarActivity
             View rootView = inflater.inflate(R.layout.fragment_main_control, container, false);
 
             ((TextView) rootView.findViewById(R.id.full_text)).setText(Html.fromHtml(
-                    "<p><b>Organizando protocolos</b><br/>" +
+                    "<p>O AnotaProtocolo permite que você mantenha organizados todos os números de protocolos de operadoras que você tiver.</p><p><b>Organizando protocolos</b><br/>" +
                             "Os seus protocolos recebidos por SMS são automaticamente carregados no aplicativo. Também é possível adicionar novos protocolos manualmente.</p>" +
                             "<p><b>Adicionar Comentários</b><br/>Os protocolos podem ter anotações pessoais para facilitar o seu controle de qual protocolo se refere a qual solicitação.</p>" +
                             "<p><b>Apagar Protocolos</b><br>Caso um protocolo não seja mais importante você pode apagá-lo. Pressione-o por 3 segundos na lista de protocolos para iniciar a remoção.</p>" +
