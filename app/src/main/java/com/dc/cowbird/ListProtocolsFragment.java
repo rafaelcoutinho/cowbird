@@ -217,7 +217,7 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
             } else if ("OI".equalsIgnoreCase(p.getOperator())) {
                 ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_oi);
             } else {
-                ((ImageView) view.findViewById(R.id.imageView)).setImageDrawable(null);
+                ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_blank);
                 ((TextView) view.findViewById(R.id.lblOperator)).setText(p.getOperator());
             }
             ((TextView) view.findViewById(R.id.lblDate)).setText(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date(p.getDate())));

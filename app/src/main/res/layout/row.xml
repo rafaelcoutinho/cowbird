@@ -34,10 +34,16 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text=""
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_alignParentTop="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+
+        android:textStyle="bold"
+        android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/imageView"
-        android:layout_alignStart="@+id/imageView" />
+        android:layout_alignStart="@+id/imageView"
+        android:layout_alignRight="@+id/imageView"
+        android:layout_alignEnd="@+id/imageView"
+        />
+
 
     <LinearLayout
         android:orientation="vertical"
@@ -46,7 +52,8 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="7dp">
+        android:layout_marginRight="7dp"
+        android:id="@+id/linearLayout">
 
         <TextView
             android:id="@+id/lblNumber"
