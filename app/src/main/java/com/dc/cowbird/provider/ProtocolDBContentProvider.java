@@ -4,6 +4,7 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
@@ -72,8 +73,9 @@ public class ProtocolDBContentProvider extends ContentProvider {
             // Notifies observers registered against this provider that the data changed.
             getContext().getContentResolver().notifyChange(noteUri, null);
             return noteUri;
+        }else {
+            throw new SQLiteConstraintException("Failed to insert row into " + uri);
         }
-        throw new IllegalArgumentException("Failed to insert row into " + uri);
     }
 
     @Override
