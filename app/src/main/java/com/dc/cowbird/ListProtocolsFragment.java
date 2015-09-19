@@ -220,7 +220,11 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
                 ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_oi);
             } else {
                 ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_blank);
-                ((TextView) view.findViewById(R.id.lblOperator)).setText(p.getOperator());
+                String operator = p.getOperator();
+                if (operator.length() > 5) {
+                    operator = operator.substring(0, 4) + "..";
+                }
+                ((TextView) view.findViewById(R.id.lblOperator)).setText(operator);
             }
             ((TextView) view.findViewById(R.id.lblDate)).setText(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date(p.getDate())));
 
@@ -234,10 +238,14 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
             } else {
                 ((TextView) view.findViewById(R.id.lblObservation)).setVisibility(View.GONE);
             }
+            String number = p.getNumber();
+            if (number.length() > 20) {
+                number = number.substring(0, 20) + "..";
+            }
             if(p.isWasSeen()){
-                ((TextView) view.findViewById(R.id.lblNumber)).setText(p.getNumber());
+                ((TextView) view.findViewById(R.id.lblNumber)).setText(number);
             }else{
-                ((TextView) view.findViewById(R.id.lblNumber)).setText(Html.fromHtml("<b>"+p.getNumber()+"</b>"));
+                ((TextView) view.findViewById(R.id.lblNumber)).setText(Html.fromHtml("<b>" + number + "</b>"));
             }
 
 
