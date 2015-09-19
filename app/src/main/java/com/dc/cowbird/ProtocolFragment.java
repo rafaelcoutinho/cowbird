@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.dc.cowbird.provider.ContentConstants;
 import com.dc.cowbird.vo.Protocol;
@@ -79,7 +80,13 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
         if (protocol != null) {
             ContentValues cv = new ContentValues();
             cv.put("obs", ((TextView) getView().findViewById(R.id.etObs)).getText().toString().trim());
+            if (!protocol.isAuto()) {
+                cv.put("number", ((TextView) getView().findViewById(R.id.etNumber)).getText().toString().trim());
+                cv.put("obs", ((TextView) getView().findViewById(R.id.etObs)).getText().toString().trim());
+                cv.put("operator", ((TextView) getView().findViewById(R.id.etOperadora)).getText().toString().trim().toUpperCase());
+            }
             getActivity().getContentResolver().update(ContentConstants.ProtocolURLs.URLProtocol.asURL(), cv, "_id=?", new String[]{mParam1.toString()});
+            Toast.makeText(getActivity(), "Protocolo atualizado", Toast.LENGTH_SHORT).show();
         } else {
 
 
@@ -90,6 +97,7 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                 p.setAuto(false);
 
                 getActivity().getContentResolver().insert(ContentConstants.ProtocolURLs.URLProtocol.asURL(), p.toContentValues());
+                Toast.makeText(getActivity(), "Protocolo salvo", Toast.LENGTH_SHORT).show();
             }
         }
         super.onDestroyView();
