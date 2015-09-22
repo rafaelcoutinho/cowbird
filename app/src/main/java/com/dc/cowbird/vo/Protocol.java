@@ -35,8 +35,8 @@ public class Protocol {
     public static final String TABLE_NAME = "protocol";
     long id = -1;
     long date = 0;
-    String operator;
-    String obs;
+    String operator = "";
+    String obs = "";
     boolean auto = true;
     boolean wasSeen = false;
     String fullSource;
@@ -134,5 +134,20 @@ public class Protocol {
 
     public void setIsSeen() {
         wasSeen=true;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return (number.hashCode() * 10000 + obs.hashCode() * 1000 + operator.hashCode() * 100 + (int) date);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Protocol) {
+            Protocol other = (Protocol) o;
+            return other.operator.equals(operator) && number.equals(other.number) && obs.equals(other.obs) && other.date == date && id == other.id;
+        }
+        return super.equals(o);
     }
 }

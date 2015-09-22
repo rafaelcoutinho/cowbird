@@ -82,11 +82,25 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
             cv.put("obs", ((TextView) getView().findViewById(R.id.etObs)).getText().toString().trim());
             if (!protocol.isAuto()) {
                 cv.put("number", ((TextView) getView().findViewById(R.id.etNumber)).getText().toString().trim());
-                cv.put("obs", ((TextView) getView().findViewById(R.id.etObs)).getText().toString().trim());
+                cv.put("date", protocolDate.getTimeInMillis());
                 cv.put("operator", ((TextView) getView().findViewById(R.id.etOperadora)).getText().toString().trim().toUpperCase());
             }
+            cv.put("obs", ((TextView) getView().findViewById(R.id.etObs)).getText().toString().trim());
+
             getActivity().getContentResolver().update(ContentConstants.ProtocolURLs.URLProtocol.asURL(), cv, "_id=?", new String[]{mParam1.toString()});
-            Toast.makeText(getActivity(), "Protocolo atualizado", Toast.LENGTH_SHORT).show();
+            Cursor c = null;
+            Protocol newProtocol = null;
+            try {
+                c = getActivity().getContentResolver().query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, "_id=?", new String[]{String.valueOf(protocol.getId())}, null);
+                if (c.moveToFirst()) {
+                    newProtocol = new Protocol(c);
+                }
+            } finally {
+                c.close();
+            }
+            if (!protocol.equals(newProtocol)) {
+                Toast.makeText(getActivity(), "Protocolo atualizado", Toast.LENGTH_SHORT).show();
+            }
         } else {
 
 
@@ -217,6 +231,7 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                         ((ImageView) v.findViewById(R.id.ic_operadora)).setImageDrawable(null);
                     }
                     updateDate(v, protocol.getDate());
+
                     ((TextView) v.findViewById(R.id.etNumber)).setText(protocol.getNumber());
                     ((TextView) v.findViewById(R.id.etOperadora)).setText(protocol.getOperator());
                     ((TextView) v.findViewById(R.id.etObs)).setText(protocol.getObs());
@@ -234,13 +249,17 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                     c.close();
                 }
             }
-            protocol.setIsSeen();
-            getActivity().getContentResolver().update(ContentConstants.ProtocolURLs.URLProtocol.asURL(), protocol.toContentValues(), "number=?", new String[]{protocol.getNumber()});
+            if (!protocol.isWasSeen()) {
+                protocol.setIsSeen();
+                getActivity().getContentResolver().update(ContentConstants.ProtocolURLs.URLProtocol.asURL(), protocol.toContentValues(), "number=?", new String[]{protocol.getNumber()});
+            }
 
+        } else {
+            updateDate(v, protocolDate.getTimeInMillis());
         }
 
         if (mParam1 == null || (protocol != null && !protocol.isAuto())) {
-            updateDate(v, protocolDate.getTimeInMillis());
+
             v.findViewById(R.id.etOperadora).setEnabled(true);
             ((TextView) v.findViewById(R.id.etNumber)).setEnabled(true);
             ((TextView) v.findViewById(R.id.dateTV)).setOnClickListener(new View.OnClickListener() {
