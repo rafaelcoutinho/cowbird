@@ -219,19 +219,15 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                         ((TextView) v.findViewById(R.id.etNumber)).setClickable(false);
 
                     }
-                    if (protocol.getOperator().equals("OI")) {
-                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_oi);
-                    } else if (protocol.getOperator().equals("TIM")) {
-                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_tim);
-                    } else if (protocol.getOperator().equals("CLARO")) {
-                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_claro);
-                    } else if (protocol.getOperator().equals("VIVO")) {
-                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_vivo);
-                    } else {
+                    int iconRes = Protocol.getIcon(protocol.getOperator());
+                    if(iconRes!=-1){
+                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(iconRes);
+                    }else{
                         ((ImageView) v.findViewById(R.id.ic_operadora)).setImageDrawable(null);
                     }
-                    updateDate(v, protocol.getDate());
 
+                    updateDate(v, protocol.getDate());
+                    protocolDate.setTimeInMillis(protocol.getDate());
                     ((TextView) v.findViewById(R.id.etNumber)).setText(protocol.getNumber());
                     ((TextView) v.findViewById(R.id.etOperadora)).setText(protocol.getOperator());
                     ((TextView) v.findViewById(R.id.etObs)).setText(protocol.getObs());
@@ -274,24 +270,6 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
             AutoCompleteTextView textView = (AutoCompleteTextView)
                     v.findViewById(R.id.etOperadora);
             textView.setThreshold(1);
-            //TODO make the selection to load from db
-//            textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                    View v = getView();
-//                    if (OPERATORS[i].equals("OI")) {
-//                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_oi);
-//                    } else if (OPERATORS[i].equals("TIM")) {
-//                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_tim);
-//                    } else if (OPERATORS[i].equals("CLARO")) {
-//                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_claro);
-//                    } else if (OPERATORS[i].equals("VIVO")) {
-//                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(R.mipmap.ic_vivo);
-//                    } else {
-//                        ((ImageView) v.findViewById(R.id.ic_operadora)).setImageDrawable(null);
-//                    }
-//                }
-//            });
             textView.setAdapter(adapter);
 
         }

@@ -210,15 +210,16 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
         public void bindView(View view, Context context, Cursor cursor) {
             Protocol p = new Protocol(cursor);
             ((TextView) view.findViewById(R.id.lblOperator)).setText("");
-            if ("VIVO".equalsIgnoreCase(p.getOperator())) {
-                ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_vivo);
-            } else if ("TIM".equalsIgnoreCase(p.getOperator())) {
-                ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_tim);
-            } else if ("CLARO".equalsIgnoreCase(p.getOperator())) {
-                ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_claro);
-            } else if ("OI".equalsIgnoreCase(p.getOperator())) {
-                ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_oi);
+            int iconRes = Protocol.getIcon(p.getOperator());
+            if (iconRes != -1) {
+                try {
+                    ((ImageView) view.findViewById(R.id.imageView)).setImageResource(iconRes);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    System.out.print("aaa "+iconRes);
+                }
             } else {
+
                 ((ImageView) view.findViewById(R.id.imageView)).setImageResource(R.mipmap.ic_blank);
                 String operator = p.getOperator();
                 if (operator.length() > 5) {

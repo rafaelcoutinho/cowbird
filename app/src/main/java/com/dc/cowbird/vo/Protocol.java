@@ -3,6 +3,8 @@ package com.dc.cowbird.vo;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.dc.cowbird.R;
+
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -149,5 +151,21 @@ public class Protocol {
             return other.operator.equals(operator) && number.equals(other.number) && obs.equals(other.obs) && other.date == date && id == other.id;
         }
         return super.equals(o);
+    }
+
+    public static int getIcon(String operator) {
+        if (operator.equals("OI")) {
+            return R.mipmap.ic_oi;
+        } else if (operator.equals("TIM")) {
+            return R.mipmap.ic_tim;
+        } else if (operator.equals("CLARO")) {
+            return R.mipmap.ic_claro;
+        } else if (operator.equals("VIVO")) {
+            return R.mipmap.ic_vivo;
+        } else if (operator.equals("AMERICANAS")) {
+            return R.mipmap.ic_americanas;
+        } else {
+            return -1;
+        }
     }
 }
