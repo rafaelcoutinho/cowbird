@@ -80,7 +80,7 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
-    <EditText
+    <TextView
         android:id="@+id/etObs"
         style="@style/mainField"
         android:layout_width="match_parent"
@@ -90,7 +90,10 @@
         android:layout_marginStart="0dp"
         android:background="#80FFFFFF"
         android:gravity="top"
-        android:minLines="5"/>
+        android:clickable="true"
+        android:onClick="openOBSEditor"
+        android:minLines="5"
+        />
 
 
 </RelativeLayout>
