@@ -11,6 +11,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -79,7 +81,16 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
         // Fetch Inbox SMS Message from Built-in Content Provider
         c = cr.query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, null, null, "date desc");
         mAdapter = new MyCursorAdapter(getActivity(), c, true);
+        setHasOptionsMenu(true);
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (inflater != null) {
+            inflater = getActivity().getMenuInflater();
+        }
+        inflater.inflate(R.menu.main_control, menu);
+        super.onCreateOptionsMenu(menu, inflater);
 
     }
 
@@ -214,9 +225,9 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
             if (iconRes != -1) {
                 try {
                     ((ImageView) view.findViewById(R.id.imageView)).setImageResource(iconRes);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.print("aaa "+iconRes);
+                    System.out.print("aaa " + iconRes);
                 }
             } else {
 
@@ -232,8 +243,8 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
             if (p.hasObservations()) {
                 ((TextView) view.findViewById(R.id.lblObservation)).setVisibility(View.VISIBLE);
                 String obs = p.getObs();
-                if(obs.length()>30){
-                    obs = obs.substring(0,30)+"...";
+                if (obs.length() > 30) {
+                    obs = obs.substring(0, 30) + "...";
                 }
                 ((TextView) view.findViewById(R.id.lblObservation)).setText(obs);
             } else {
@@ -243,9 +254,9 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
             if (number.length() > 20) {
                 number = number.substring(0, 20) + "..";
             }
-            if(p.isWasSeen()){
+            if (p.isWasSeen()) {
                 ((TextView) view.findViewById(R.id.lblNumber)).setText(number);
-            }else{
+            } else {
                 ((TextView) view.findViewById(R.id.lblNumber)).setText(Html.fromHtml("<b>" + number + "</b>"));
             }
 

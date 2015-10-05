@@ -1,8 +1,13 @@
 package com.dc.cowbird;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,6 +27,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.dc.cowbird.provider.ContentConstants;
+
+import java.util.List;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -264,10 +273,22 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.filter:
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                ListView view = new ListView(getActivity());
+                ContentResolver cr = getActivity().getContentResolver();
+                Cursor c = c = cr.query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), new String[]{"distinct operator"}, null, null, null);
+                view.setAdapter(new OpFilterAdapter(c, getActivity()));
+                builder.setView(view);
+                builder.setTitle("Selecione um operadora");
+                builder
+                        .setNegativeButton(getResources().getText(R.string.cancel), null);
+                builder.create().show();
+
+                break;
         }
+
 
         return super.onOptionsItemSelected(item);
     }

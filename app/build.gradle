@@ -27,7 +27,6 @@ android {
             applicationIdSuffix 'Protocolo'
         }
         debug {
-            signingConfig signingConfigs.config
             applicationIdSuffix 'Protocolo'
         }
     }

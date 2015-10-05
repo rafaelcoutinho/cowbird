@@ -3,12 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.dc.cowbird.MainControlActivity">
     <item
-        android:id="@+id/action_example"
-        android:title="@string/action_add"
+        android:id="@+id/filter"
+        android:title="@string/filter"
         app:showAsAction="withText|ifRoom" />
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="adfasd"
-        app:showAsAction="never" />
 </menu>

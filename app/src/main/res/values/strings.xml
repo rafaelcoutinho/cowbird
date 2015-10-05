@@ -12,7 +12,10 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_add">Novo</string>
+    <string name="filter">Filtro</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
 </resources>
