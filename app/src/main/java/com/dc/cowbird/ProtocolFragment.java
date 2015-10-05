@@ -7,14 +7,19 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -200,10 +205,26 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
         String hora = DateFormat.getTimeFormat(getActivity()).format(new Date(date));
         ((TextView) v.findViewById(R.id.dateTV)).setText(data + " " + hora);
     }
+
+    String obs = null;
+    TextView obsTV = null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.fragment_protocol, container, false);
+        ((TextView) v.findViewById(R.id.etObs)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                android.support.v4.app.Fragment f = MyDialogFragment.newInstance(((TextView) view).getText().toString());
+                f.setTargetFragment(ProtocolFragment.this, 213);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container, f).addToBackStack("Protocol")
+                        .commit();
+            }
+        });
+        obsTV = ((TextView) v.findViewById(R.id.etObs));
+
         if (mParam1 != null) {
 
 
@@ -238,7 +259,7 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                     ((TextView) v.findViewById(R.id.etObs)).setText("");
                     ((EditText) v.findViewById(R.id.etNumber)).setEnabled(true);
                     ((EditText) v.findViewById(R.id.etOperadora)).setEnabled(true);
-                    ((EditText) v.findViewById(R.id.etObs)).setEnabled(true);
+                    ((TextView) v.findViewById(R.id.etObs)).setEnabled(true);
                 }
             } finally {
                 if (c != null) {
@@ -273,7 +294,96 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
             textView.setAdapter(adapter);
 
         }
+        if (obs != null) {
+            ((TextView) v.findViewById(R.id.etObs)).setText(obs);
+        }
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.print("AQUI!!!");
+    }
+
+
+    public static class MyDialogFragment extends android.support.v4.app.DialogFragment {
+        String obs;
+
+        /**
+         * Create a new instance of MyDialogFragment, providing "num"
+         * as an argument.
+         */
+        static MyDialogFragment newInstance(String obs) {
+            MyDialogFragment f = new MyDialogFragment();
+
+            // Supply num input as an argument.
+            Bundle args = new Bundle();
+            args.putString("obs", obs);
+
+            f.setArguments(args);
+
+            return f;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            obs = getArguments().getString("obs");
+            int style = DialogFragment.STYLE_NORMAL, theme = 0;
+            setStyle(android.support.v4.app.DialogFragment.STYLE_NO_TITLE, theme);
+            // Pick a style based on the num.
+
+//            switch ((mNum-1)%6) {
+//                case 1: style = DialogFragment.STYLE_NO_TITLE; break;
+//                case 2: style = DialogFragment.STYLE_NO_FRAME; break;
+//                case 3: style = DialogFragment.STYLE_NO_INPUT; break;
+//                case 4: style = DialogFragment.STYLE_NORMAL; break;
+//                case 5: style = DialogFragment.STYLE_NORMAL; break;
+//                case 6: style = DialogFragment.STYLE_NO_TITLE; break;
+//                case 7: style = DialogFragment.STYLE_NO_FRAME; break;
+//                case 8: style = DialogFragment.STYLE_NORMAL; break;
+//            }
+//            switch ((mNum-1)%6) {
+//                case 4: theme = android.R.style.Theme_Holo; break;
+//                case 5: theme = android.R.style.Theme_Holo_Light_Dialog; break;
+//                case 6: theme = android.R.style.Theme_Holo_Light; break;
+//                case 7: theme = android.R.style.Theme_Holo_Light_Panel; break;
+//                case 8: theme = android.R.style.Theme_Holo_Light; break;
+//            }
+
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View v = inflater.inflate(R.layout.fragment_edit_obs_dialog, container, false);
+            EditText tv =(EditText) v.findViewById(R.id.editText);
+
+//            getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_S‌​TATE_VISIBLE);
+            tv.requestFocus();
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
+            ((TextView) tv).setText(obs);
+            ((EditText) tv).setSelection(obs.length());
+
+
+            return v;
+        }
+
+        @Override
+        public void onDestroyView() {
+            String obs = ((EditText) getView().findViewById(R.id.editText)).getText().toString();
+            ((ProtocolFragment) getTargetFragment()).updateText(obs);
+            super.onDestroyView();
+
+        }
+    }
+
+    public void updateText(String string) {
+        this.obs=string;
+
     }
 
     String[] OPERATORS = new String[]{"CLARO", "OI", "TIM", "VIVO"};
