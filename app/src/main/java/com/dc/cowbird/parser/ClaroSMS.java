@@ -46,6 +46,6 @@ public class ClaroSMS implements SMSParser {
         } catch (Exception e) {
             Log.i(Constants.LOG_TAG, "Could not get date from '" + body, e);
         }
-        return new Protocol(m.group(1), "Claro", date, body);
+        return new Protocol(m.group(1), "CLARO", date, body);
     }
 }

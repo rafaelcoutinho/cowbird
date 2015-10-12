@@ -12,19 +12,19 @@ import java.util.regex.Pattern;
 /**
  * Created by coutinho on 26/08/15.
  */
-public class Tim2SMS implements SMSParser {
+public class Tim3SMS implements SMSParser {
 
-    final static String regextStr = "Prezado Cliente sua InformaÇäo de (.*) foi atendida em (\\d{0,2}/\\d{0,2}/\\d{0,4}) (\\d{0,2}:\\d{0,2}:\\d{0,2}) através do protocolo (\\d*)\\. Obrigad[oa] pelo contato! TIM.";
+    final static String regextStr = "Prezado Cliente sua (.*?) de Protocolo (\\d*) registrada em (\\d{0,2}/\\d{0,2}/\\d{0,4}) (\\d{0,2}:\\d{0,2}:\\d{0,2}) näo foi concluida. Ligue \\*144 para dar continuidade ao atendimento.";
     Pattern p = null;
 
-    public Tim2SMS() {
+    public Tim3SMS() {
         p = Pattern.compile(regextStr);
 
     }
 
     @Override
     public boolean canParse(String address, String body) {
-        if ((address.contains("144") || address.contains("4198")|| address.contains("4196"))&& body.endsWith("TIM.")) {
+        if ((address.contains("144") || address.contains("4198")|| address.contains("4196"))&& body.contains("*144")) {
             return p.matcher(body).matches();
         }
         return false;
@@ -40,8 +40,8 @@ public class Tim2SMS implements SMSParser {
 
                 if (m.groupCount() > 1) {
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy kk:mm:ss");
-                    date = sdf.parse(m.group(2) + " " + m.group(3)).getTime();
-                    p = new Protocol(m.group(4), "TIM", date, body);
+                    date = sdf.parse(m.group(3) + " " + m.group(4)).getTime();
+                    p = new Protocol(m.group(2), "TIM", date, body);
                     p.setObs(m.group(1));
 
                 }
