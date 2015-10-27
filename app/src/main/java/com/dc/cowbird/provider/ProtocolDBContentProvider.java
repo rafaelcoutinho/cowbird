@@ -63,6 +63,9 @@ public class ProtocolDBContentProvider extends ContentProvider {
                 rowId = db.getWritableDatabase().insert(Protocol.TABLE_NAME, null, values);
 
                 break;
+            default:
+                throw new SQLiteConstraintException("Failed to switch insert protocol "+uri );
+
         }
 
         // If the insert succeeded, the row ID exists.

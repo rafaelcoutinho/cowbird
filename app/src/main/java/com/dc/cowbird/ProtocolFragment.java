@@ -10,6 +10,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -115,11 +116,39 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                 Protocol p = new Protocol(number, ((TextView) getView().findViewById(R.id.etOperadora)).getText().toString().trim().toUpperCase(), protocolDate.getTimeInMillis(), "");
                 p.setAuto(false);
                 p.setIsSeen();
-                getActivity().getContentResolver().insert(ContentConstants.ProtocolURLs.URLProtocol.asURL(), p.toContentValues());
+                Uri inserted = getActivity().getContentResolver().insert(ContentConstants.ProtocolURLs.URLProtocol.asURL(), p.toContentValues());
+
+                mParam1 = Long.valueOf(inserted.getLastPathSegment());
+                System.out.println("aaa " + inserted.getLastPathSegment() + " " + mParam1);
+                protocol = getById(mParam1);
                 Toast.makeText(getActivity(), "Protocolo salvo", Toast.LENGTH_SHORT).show();
+
             }
         }
         super.onDestroyView();
+    }
+
+    private Protocol getById(Long id) {
+        Protocol localProtocol = null;
+
+
+        Cursor c = null;
+        try
+
+        {
+            c = getActivity().getContentResolver().query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, "_id=?", new String[]{id.toString()}, null);
+            if (c.moveToFirst()) {
+                localProtocol = new Protocol(c);
+            }
+        } finally
+
+        {
+            if (c != null) {
+                c.close();
+            }
+        }
+
+        return localProtocol;
     }
 
     public static class DatePickerFragment extends DialogFragment {
@@ -208,6 +237,7 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
 
     String obs = null;
     TextView obsTV = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -241,9 +271,9 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
 
                     }
                     int iconRes = Protocol.getIcon(protocol.getOperator());
-                    if(iconRes!=-1){
+                    if (iconRes != -1) {
                         ((ImageView) v.findViewById(R.id.ic_operadora)).setImageResource(iconRes);
-                    }else{
+                    } else {
                         ((ImageView) v.findViewById(R.id.ic_operadora)).setImageDrawable(null);
                     }
 
@@ -358,13 +388,13 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_edit_obs_dialog, container, false);
-            EditText tv =(EditText) v.findViewById(R.id.editText);
+            EditText tv = (EditText) v.findViewById(R.id.editText);
 
 //            getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_S‌​TATE_VISIBLE);
             tv.requestFocus();
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
             ((TextView) tv).setText(obs);
             ((EditText) tv).setSelection(obs.length());
 
@@ -379,10 +409,11 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
             super.onDestroyView();
 
         }
+
     }
 
     public void updateText(String string) {
-        this.obs=string;
+        this.obs = string;
 
     }
 
