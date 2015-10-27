@@ -164,8 +164,10 @@ public class Protocol {
             return R.mipmap.ic_vivo;
         } else if (operator.equals("AMERICANAS")) {
             return R.mipmap.ic_americanas;
+        } else if (operator.equals("NET")||operator.equals("NETCOMBO")) {
+            return R.mipmap.ic_net;
         } else {
             return -1;
         }
-    }
+    }s                 a
 }
