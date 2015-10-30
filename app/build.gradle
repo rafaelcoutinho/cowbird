@@ -15,8 +15,8 @@ android {
         applicationId "com.dc.cowbird"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 12
-        versionName '1.4.5'
+        versionCode 13
+        versionName '1.5'
         signingConfig signingConfigs.config
     }
     buildTypes {

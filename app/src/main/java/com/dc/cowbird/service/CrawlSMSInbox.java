@@ -63,6 +63,7 @@ public class CrawlSMSInbox extends IntentService {
             // Get Content Resolver object, which will deal with Content Provider
             ContentResolver cr = getContentResolver();
             Long lastExecution = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getLong("lastCheck", 0);
+            Log.i(Constants.LOG_TAG, "lastCheck " + lastExecution);
             Integer versionCode = 0;
             try {
                 Integer lastVersion = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("lastVersion", 0);

@@ -32,4 +32,4 @@ proguard/
 
 gradlew.bat
 gradlew
-
+app/src/main/res/values/api_keys.xml

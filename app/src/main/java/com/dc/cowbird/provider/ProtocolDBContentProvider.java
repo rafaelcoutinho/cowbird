@@ -1,5 +1,6 @@
 package com.dc.cowbird.provider;
 
+import android.app.backup.BackupManager;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -33,7 +34,9 @@ public class ProtocolDBContentProvider extends ContentProvider {
         switch (vrUrl) {
             case URLProtocol:
                 count = db.getWritableDatabase().delete(Protocol.TABLE_NAME, selection, selectionArgs);
-
+                if (count > 0) {
+                    new BackupManager(getContext()).dataChanged();
+                }
                 break;
         }
         getContext().getContentResolver().notifyChange(uri, null);
@@ -61,10 +64,10 @@ public class ProtocolDBContentProvider extends ContentProvider {
         switch (vrUrl) {
             case URLProtocol:
                 rowId = db.getWritableDatabase().insert(Protocol.TABLE_NAME, null, values);
-
+                new BackupManager(getContext()).dataChanged();
                 break;
             default:
-                throw new SQLiteConstraintException("Failed to switch insert protocol "+uri );
+                throw new SQLiteConstraintException("Failed to switch insert protocol " + uri);
 
         }
 
@@ -76,7 +79,7 @@ public class ProtocolDBContentProvider extends ContentProvider {
             // Notifies observers registered against this provider that the data changed.
             getContext().getContentResolver().notifyChange(noteUri, null);
             return noteUri;
-        }else {
+        } else {
             throw new SQLiteConstraintException("Failed to insert row into " + uri);
         }
     }
@@ -110,7 +113,10 @@ public class ProtocolDBContentProvider extends ContentProvider {
         switch (vrUrl) {
             case URLProtocol:
                 SQLiteDatabase sql = db.getWritableDatabase();
-                sql.update(Protocol.TABLE_NAME, values, selection, selectionArgs);
+                count = sql.update(Protocol.TABLE_NAME, values, selection, selectionArgs);
+                if (count > 0) {
+                    new BackupManager(getContext()).dataChanged();
+                }
                 break;
         }
 

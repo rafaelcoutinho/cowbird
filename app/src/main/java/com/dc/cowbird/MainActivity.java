@@ -3,8 +3,12 @@ package com.dc.cowbird;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
@@ -41,7 +45,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        lvMsg = (ListView) findViewById(R.id.lvMsg);
+
+                lvMsg = (ListView) findViewById(R.id.lvMsg);
         // Get Content Resolver object, which will deal with Content Provider
         ContentResolver cr = getContentResolver();
 
