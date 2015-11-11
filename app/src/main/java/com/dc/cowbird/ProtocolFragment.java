@@ -116,12 +116,15 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                 Protocol p = new Protocol(number, ((TextView) getView().findViewById(R.id.etOperadora)).getText().toString().trim().toUpperCase(), protocolDate.getTimeInMillis(), "");
                 p.setAuto(false);
                 p.setIsSeen();
-                Uri inserted = getActivity().getContentResolver().insert(ContentConstants.ProtocolURLs.URLProtocol.asURL(), p.toContentValues());
+                try {
+                    Uri inserted = getActivity().getContentResolver().insert(ContentConstants.ProtocolURLs.URLProtocol.asURL(), p.toContentValues());
 
-                mParam1 = Long.valueOf(inserted.getLastPathSegment());
-                System.out.println("aaa " + inserted.getLastPathSegment() + " " + mParam1);
-                protocol = getById(mParam1);
-                Toast.makeText(getActivity(), "Protocolo salvo", Toast.LENGTH_SHORT).show();
+                    mParam1 = Long.valueOf(inserted.getLastPathSegment());
+                    protocol = getById(mParam1);
+                    Toast.makeText(getActivity(), "Protocolo salvo", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         }
