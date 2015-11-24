@@ -38,7 +38,7 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * <p/>
+ * <p>
  * to handle interaction events.
  * Use the {@link ProtocolFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -299,7 +299,7 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                     c.close();
                 }
             }
-            if (protocol!=null && !protocol.isWasSeen()) {
+            if (protocol != null && !protocol.isWasSeen()) {
                 protocol.setIsSeen();
                 getActivity().getContentResolver().update(ContentConstants.ProtocolURLs.URLProtocol.asURL(), protocol.toContentValues(), "number=?", new String[]{protocol.getNumber()});
             }
@@ -333,11 +333,6 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
         return v;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        System.out.print("AQUI!!!");
-    }
 
 
     public static class MyDialogFragment extends android.support.v4.app.DialogFragment {
@@ -420,7 +415,7 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
 
     }
 
-    String[] OPERATORS = new String[]{"CLARO", "OI", "TIM", "VIVO"};
+    String[] OPERATORS = new String[]{"CLARO", "OI", "TIM", "VIVO", "NETCOMBO", "ANATEL", "AZUL LINHAS AEREAS"};
 
     @Override
     public void onAttach(Activity activity) {

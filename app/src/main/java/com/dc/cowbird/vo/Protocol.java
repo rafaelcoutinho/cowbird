@@ -164,6 +164,10 @@ public class Protocol {
             return R.mipmap.ic_vivo;
         } else if (operator.equals("AMERICANAS")) {
             return R.mipmap.ic_americanas;
+        }else if (operator.equals("ANATEL")) {
+            return R.mipmap.ic_anatel;
+        }else if (operator.startsWith("AZUL")) {
+            return R.mipmap.ic_voeazul;
         } else if (operator.equals("NET")||operator.equals("NETCOMBO")) {
             return R.mipmap.ic_net;
         } else {
