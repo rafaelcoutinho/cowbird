@@ -299,7 +299,7 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                     c.close();
                 }
             }
-            if (!protocol.isWasSeen()) {
+            if (protocol!=null && !protocol.isWasSeen()) {
                 protocol.setIsSeen();
                 getActivity().getContentResolver().update(ContentConstants.ProtocolURLs.URLProtocol.asURL(), protocol.toContentValues(), "number=?", new String[]{protocol.getNumber()});
             }
