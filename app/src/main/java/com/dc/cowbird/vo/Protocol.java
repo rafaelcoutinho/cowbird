@@ -24,6 +24,8 @@ public class Protocol {
             "full_source text, " +
             "outcome text, " +
             "wasseen int default 0, " +
+            "complete int default 0, " +
+            "completeDate int, " +
 
             "UNIQUE(number)" +
             ")";
@@ -33,6 +35,7 @@ public class Protocol {
             "CREATE INDEX protocol_2 ON protocol(operator)"
     };
     public static final String UPGRADE_2_3 = "ALTER TABLE protocol ADD COLUMN wasseen int";
+    public static final String UPGRADE_3_4[] = new String[]{"ALTER TABLE protocol ADD COLUMN complete int", "ALTER TABLE protocol ADD COLUMN completeDate int"};
 
     public static final String TABLE_NAME = "protocol";
     long id = -1;
@@ -41,6 +44,8 @@ public class Protocol {
     String obs = "";
     boolean auto = true;
     boolean wasSeen = false;
+    private boolean complete = false;
+    private long completeDate = 0;
     String fullSource;
     Outcome outcome = Outcome.NA;
     private String number = "?";
@@ -72,6 +77,8 @@ public class Protocol {
         this.auto = c.getInt(c.getColumnIndex("auto")) == 1;
         this.wasSeen = c.getInt(c.getColumnIndex("wasseen")) == 1;
         this.outcome = Outcome.valueOf(c.getString(c.getColumnIndex("outcome")));
+        this.complete = c.getInt(c.getColumnIndex("complete")) == 1;
+        this.completeDate = c.getLong(c.getColumnIndex("completeDate"));
 
     }
 
@@ -123,6 +130,8 @@ public class Protocol {
         cv.put("outcome", outcome.name());
         cv.put("auto", auto ? 1 : 0);
         cv.put("wasseen", wasSeen ? 1 : 0);
+        cv.put("complete", complete ? 1 : 0);
+        cv.put("completeDate", completeDate);
         return cv;
     }
 
@@ -131,11 +140,11 @@ public class Protocol {
     }
 
     public boolean hasObservations() {
-        return obs!=null && !obs.isEmpty();
+        return obs != null && !obs.isEmpty();
     }
 
     public void setIsSeen() {
-        wasSeen=true;
+        wasSeen = true;
     }
 
     @Override
@@ -164,14 +173,27 @@ public class Protocol {
             return R.mipmap.ic_vivo;
         } else if (operator.equals("AMERICANAS")) {
             return R.mipmap.ic_americanas;
-        }else if (operator.equals("ANATEL")) {
+        } else if (operator.equals("ANATEL")) {
             return R.mipmap.ic_anatel;
-        }else if (operator.startsWith("AZUL")) {
+        } else if (operator.startsWith("AZUL")) {
             return R.mipmap.ic_voeazul;
-        } else if (operator.equals("NET")||operator.equals("NETCOMBO")) {
+        } else if (operator.equals("NET") || operator.equals("NETCOMBO")) {
             return R.mipmap.ic_net;
         } else {
             return -1;
         }
+    }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
+        completeDate = System.currentTimeMillis();
+    }
+
+    public Long getCompleteDate() {
+        return completeDate;
     }
 }

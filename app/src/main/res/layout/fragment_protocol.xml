@@ -4,23 +4,64 @@
     android:layout_height="match_parent"
     android:background="#f4eed7"
     android:orientation="vertical"
-    android:padding="15dp"
-    tools:context="com.dc.cowbird.ProtocolFragment">
+    tools:context="com.dc.cowbird.ProtocolFragment"
+    android:paddingLeft="15dp"
+    android:paddingBottom="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="0dp">
+
+    <LinearLayout
+        android:id="@+id/doneSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginBottom="3dp"
+        android:longClickable="true"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:background="@drawable/border_shape"
+        android:layout_marginTop="-2dp">
+
+
+       <ImageView
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+
+        android:src="@android:drawable/presence_online"/>
+    <TextView
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:background="#0000"
+        android:text="Finalizado"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/operLabel"
         style="@style/labelStyle"
-        android:layout_alignTop="@+id/ic_operadora"
-        android:layout_toLeftOf="@+id/ic_operadora"
-        android:text="Operadora" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/doneSection"
+        android:text="Operadora"
+        android:layout_marginTop="10dp" />
 
     <ImageView
         android:id="@+id/ic_operadora"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_alignParentEnd="true"
+        android:scaleType="fitXY"
+        android:layout_alignTop="@+id/operLabel"
         android:layout_alignParentRight="true"
-        android:scaleType="fitXY" />
+        android:layout_alignParentEnd="true" />
 
     <AutoCompleteTextView
         android:id="@+id/etOperadora"
@@ -89,11 +130,10 @@
         android:layout_marginLeft="0dp"
         android:layout_marginStart="0dp"
         android:background="#80FFFFFF"
-        android:gravity="top"
         android:clickable="true"
-        android:onClick="openOBSEditor"
+        android:gravity="top"
         android:minLines="5"
-        />
+        android:onClick="openOBSEditor" />
 
 
 </RelativeLayout>

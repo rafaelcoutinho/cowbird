@@ -8,19 +8,20 @@ import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,7 +39,7 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * <p>
+ * <p/>
  * to handle interaction events.
  * Use the {@link ProtocolFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -53,6 +54,7 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
 
     public ProtocolFragment() {
         // Required empty public constructor
+        setHasOptionsMenu(true);
     }
 
     /**
@@ -76,8 +78,9 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getLong(ARG_PARAM1);
-
+            setHasOptionsMenu(true);
         }
+
     }
 
     @Override
@@ -92,6 +95,9 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                 cv.put("operator", ((TextView) getView().findViewById(R.id.etOperadora)).getText().toString().trim().toUpperCase());
             }
             cv.put("obs", ((TextView) getView().findViewById(R.id.etObs)).getText().toString().trim());
+            cv.put("complete", protocol.isComplete());
+            cv.put("completeDate", protocol.getCompleteDate());
+
 
             getActivity().getContentResolver().update(ContentConstants.ProtocolURLs.URLProtocol.asURL(), cv, "_id=?", new String[]{mParam1.toString()});
             Cursor c = null;
@@ -178,6 +184,27 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
         }
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == 333) {
+            if (protocol != null) {
+                protocol.setComplete(true);
+                Toast.makeText(getActivity(), "Protocolo finalizado", Toast.LENGTH_SHORT).show();
+                updateSuccessSection(getView());
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (protocol != null) {
+            menu.add(0, 333, 0, "Finalizar");
+        }
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -285,6 +312,7 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
                     ((TextView) v.findViewById(R.id.etNumber)).setText(protocol.getNumber());
                     ((TextView) v.findViewById(R.id.etOperadora)).setText(protocol.getOperator());
                     ((TextView) v.findViewById(R.id.etObs)).setText(protocol.getObs());
+                    updateSuccessSection(v);
                 } else {
                     ((TextView) v.findViewById(R.id.dateTV)).setText("");
                     ((TextView) v.findViewById(R.id.etNumber)).setText("");
@@ -333,6 +361,23 @@ public class ProtocolFragment extends android.support.v4.app.Fragment implements
         return v;
     }
 
+    private void updateSuccessSection(View v) {
+        if (protocol.isComplete()) {
+            View view = v.findViewById(R.id.doneSection);
+            // Prepare the View for the animation
+            view.setTranslationY(-140);
+            view.setVisibility(View.VISIBLE);
+
+            view.setAlpha(0.5f);
+
+            // Start the animation
+            view.animate().setDuration(1000)
+                    .translationY(0)
+                    .alpha(1.0f);
+            Log.d("A", "H" + view.getHeight());
+
+        }
+    }
 
 
     public static class MyDialogFragment extends android.support.v4.app.DialogFragment {

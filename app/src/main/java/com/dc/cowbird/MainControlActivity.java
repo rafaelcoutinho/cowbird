@@ -53,8 +53,8 @@ public class MainControlActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_control);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        sp.edit().putInt("conta",sp.getInt("conta",0)+1).commit();
-        Log.i(Constants.LOG_TAG, " TEste a " + sp.getInt("conta", 0));
+        sp.edit().putInt("conta", sp.getInt("conta", 0) + 1).commit();
+
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -89,15 +89,21 @@ public class MainControlActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (position == 0) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, new ListProtocolsFragment())
-                    .commit();
-        } else {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                    .commit();
+        switch (position) {
+            case 0:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new ListProtocolsFragment())
+                        .commit();
+                break;
+            case 1:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                        .commit();
+                break;
+
+
         }
+
 
     }
 
@@ -117,9 +123,6 @@ public class MainControlActivity extends ActionBarActivity
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayUseLogoEnabled(true);
-//        actionBar.setDisplayShowHomeEnabled(false);
-//        actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
 
@@ -168,6 +171,7 @@ public class MainControlActivity extends ActionBarActivity
                             "<p><b>Precisa de Ajuda</b><br/>Caso esteja com problemas para utilizar o aplicativo ou gostaria de ter uma nova operadora controlada automaticamente pelo aplicativo acesse estes <a href='https://github.com/rafaelcoutinho/cowbird/issues'>link</a> ou envie um e-mail para: <a href='mailto:anotaprotocolo@gmail.com'>anotaprotocolo@gmail.com</a></p>" +
                             "<hr/><p>Desenvolvido por <a href='https://github.com/DaviRSSilva'>Davi Ribeiro</a> e <a href='https://github.com/rafaelcoutinho'>Rafael Coutinho</a><br>Licenciado sob GPLv2</p>"));
             ((TextView) rootView.findViewById(R.id.full_text)).setMovementMethod(LinkMovementMethod.getInstance());
+
             ((TextView) rootView.findViewById(R.id.full_text)).setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -190,7 +194,7 @@ public class MainControlActivity extends ActionBarActivity
                         public void restoreFinished(int error) {
                             super.restoreFinished(error);
                             Log.i(Constants.LOG_TAG, "REstore finalizou " + error);
-                            Toast.makeText(getActivity(), "Restoure completou "+error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Restoure completou " + error, Toast.LENGTH_SHORT).show();
                         }
                     });
                     return true;

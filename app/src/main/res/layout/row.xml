@@ -14,7 +14,19 @@
         android:layout_marginRight="5dp"
         android:src="@mipmap/ic_tim"
         android:layout_alignParentTop="true" />
+    <ImageView
+        android:id="@+id/doneIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
+
+        android:src="@android:drawable/presence_online"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignLeft="@+id/imageView"
+
+        android:layout_marginLeft="4dp"
+        android:layout_marginBottom="14dp"
+        android:visibility="invisible" />
     <TextView
         android:id="@+id/lblDate"
         android:layout_width="wrap_content"

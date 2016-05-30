@@ -7,10 +7,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -51,7 +55,7 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    private MyCursorAdapter mAdapter;
     private Cursor c;
 
     /**
@@ -77,14 +81,43 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
         ContentResolver cr = getActivity().getContentResolver();
 
         // Fetch Inbox SMS Message from Built-in Content Provider
-        c = cr.query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, null, null, "date desc");
-        mAdapter = new MyCursorAdapter(getActivity(), c, true);
+//        c = cr.query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, null, null, "date desc");
+//        mAdapter = new MyCursorAdapter(getActivity(), c, false);
+
+        updateAdapter(PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(FILTER_PREF_NAME, true));
+        setHasOptionsMenu(true);
 
 
     }
 
+    private static final String FILTER_PREF_NAME = "filterOn";
     private FloatingActionButton mFloatingBtn;
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_show_all) {
+            item.setChecked(!item.isChecked());
+            boolean includeCompleted = item.isChecked();
+            updateAdapter(includeCompleted);
+            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(FILTER_PREF_NAME, includeCompleted).commit();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void updateAdapter(boolean includeCompleted) {
+        ContentResolver cr = getActivity().getContentResolver();
+        String filter = null;
+        if (!includeCompleted) {
+            filter = "complete=0";
+        }
+        Cursor c = cr.query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, filter, null, "date desc");
+        if (mAdapter == null) {
+            mAdapter = new MyCursorAdapter(getActivity(), c, true);
+        } else {
+            mAdapter.swapCursor(c);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -157,6 +190,18 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.menu_main, menu);
+
+
+        menu.findItem(R.id.action_show_all).setChecked(PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(FILTER_PREF_NAME, true));
+        Cursor c = getContext().getContentResolver().query(ContentConstants.ProtocolURLs.URLProtocol.asURL(), null, "complete=1", null, null);
+        menu.findItem(R.id.action_show_all).setTitle("Exibir (" + c.getCount() + ") finalizados");
+        c.close();
+    }
+
+    @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
         new AlertDialog.Builder(getActivity()).setTitle("Deletar").setMessage("Tem certeza que deseja deletar este protocolo?").setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
@@ -165,6 +210,7 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
                 c.moveToPosition(position - 1);
                 Protocol protocol = new Protocol(c);
                 getActivity().getContentResolver().delete(ContentConstants.ProtocolURLs.URLProtocol.asURL(), "_id=?", new String[]{String.valueOf(protocol.getId())});
+                mAdapter.notifyDataSetChanged();
                 mListView.deferNotifyDataSetChanged();
             }
         }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -211,12 +257,17 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
             Protocol p = new Protocol(cursor);
             ((TextView) view.findViewById(R.id.lblOperator)).setText("");
             int iconRes = Protocol.getIcon(p.getOperator());
+            if (p.isComplete()) {
+
+                view.findViewById(R.id.doneIV).setVisibility(View.VISIBLE);
+            } else {
+                view.findViewById(R.id.doneIV).setVisibility(View.INVISIBLE);
+            }
             if (iconRes != -1) {
                 try {
                     ((ImageView) view.findViewById(R.id.imageView)).setImageResource(iconRes);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.print("aaa "+iconRes);
                 }
             } else {
 
@@ -232,8 +283,8 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
             if (p.hasObservations()) {
                 ((TextView) view.findViewById(R.id.lblObservation)).setVisibility(View.VISIBLE);
                 String obs = p.getObs();
-                if(obs.length()>30){
-                    obs = obs.substring(0,30)+"...";
+                if (obs.length() > 30) {
+                    obs = obs.substring(0, 30) + "...";
                 }
                 ((TextView) view.findViewById(R.id.lblObservation)).setText(obs);
             } else {
@@ -243,9 +294,9 @@ public class ListProtocolsFragment extends Fragment implements AbsListView.OnIte
             if (number.length() > 20) {
                 number = number.substring(0, 20) + "..";
             }
-            if(p.isWasSeen()){
+            if (p.isWasSeen()) {
                 ((TextView) view.findViewById(R.id.lblNumber)).setText(number);
-            }else{
+            } else {
                 ((TextView) view.findViewById(R.id.lblNumber)).setText(Html.fromHtml("<b>" + number + "</b>"));
             }
 

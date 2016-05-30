@@ -11,7 +11,7 @@ import com.dc.cowbird.vo.Protocol;
  * Created by coutinho on 27/08/15.
  */
 class ProtocolDBHelper extends SQLiteOpenHelper {
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
     public static String DB_NAME = "PROTOCOLNOTEDB";
 
     public ProtocolDBHelper(Context ctx) {
@@ -31,12 +31,18 @@ class ProtocolDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int fromVersion, int toVerson) {
-        if (toVerson == 3) {
-            sqLiteDatabase.execSQL(Protocol.UPGRADE_2_3);
-        } else if (toVerson == 4) {
-            ContentValues cv = new ContentValues();
-            cv.put("operator", "CLARO");
-            sqLiteDatabase.update(Protocol.TABLE_NAME, cv, "operator=?", new String[]{"Claro"});
+        switch (fromVersion) {
+            case 2:
+                sqLiteDatabase.execSQL(Protocol.UPGRADE_2_3);
+
+            case 3:
+                ContentValues cv = new ContentValues();
+                cv.put("operator", "CLARO");
+                sqLiteDatabase.update(Protocol.TABLE_NAME, cv, "operator=?", new String[]{"Claro"});
+            case 4:
+                for (int i = 0; i < Protocol.UPGRADE_3_4.length; i++) {
+                    sqLiteDatabase.execSQL(Protocol.UPGRADE_3_4[i]);
+                }
 
         }
     }

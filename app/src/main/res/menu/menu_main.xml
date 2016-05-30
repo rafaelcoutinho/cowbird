@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_show_all"
         android:orderInCategory="100"
-        android:title="asdf"
+        android:checkable="true"
+
+        android:title="Exibir Finalizados"
         app:showAsAction="never" />
 </menu>
